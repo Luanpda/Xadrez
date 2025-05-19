@@ -1,0 +1,56 @@
+
+:root{
+    --cor-clara: #e0e0e0;
+    --cor-escura: 	#3c6e47;
+    --cor-de-fundo: #343a40;
+}
+
+body{
+    background-color: var(--cor-de-fundo);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+ 
+}
+.posicao{
+    max-width: 40%;
+  max-height: 40%;
+  object-fit: contain;
+}
+
+
+
+.tabuleiro{
+    width: 680px;
+  height: 680px;
+    grid-template-columns: repeat(8, 1fr);
+    margin-top: 2rem;
+}
+.tabuleiro div{
+    aspect-ratio: 1;
+    border: 1px solid black;
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.branca{
+    background-color: var(--cor-clara);
+}
+.marcada{
+    background-color: var(--cor-escura);
+}
+
+.peca {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
