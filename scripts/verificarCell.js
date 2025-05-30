@@ -1,24 +1,25 @@
-import { movimentoTorre } from "./movimento.js";
-
+import { movimentoTorre,movimentoPeao } from "./movimento.js";
+import { movimentoCavalo } from "./movimentoCavalo.js";
 
 export function verificarCell(classes,id){
-    if( classes.includes('torre')){
+    if( classes.includes('torre') || classes.includes('torreBranca')){
         movimentoTorre(id);
     }
-    if( classes.includes('cavalo')){
-        movimentoCavalo();
+    if( classes.includes('cavalo') || classes.includes('cavaloBranco')){
+        movimentoCavalo(id);
     }
     if( classes.includes('rei')){
-        movimentoRei();
+        movimentoRei(id);
     }
     if( classes.includes('rainha')){
-        movimentoRainha();
+        movimentoRainha(id);
     }
     if( classes.includes('bispo')){
-        movimentoBispo();
+        movimentoBispo(id);
     }
     if( classes.includes('peao')){
-        movimentoBispo();
+        
+        movimentoPeao(id);
     }
 
 }

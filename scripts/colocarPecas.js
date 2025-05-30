@@ -11,6 +11,7 @@ function colocarPecas(cor){
            
             const cell = document.getElementById(`cell-${i}`);
             cell.classList.remove('vazia');
+            cell.setAttribute('data-posicao', false);
             cell.classList.add(classes[i]);
             cell.appendChild(img);
         }
@@ -18,10 +19,12 @@ function colocarPecas(cor){
             
             const img = document.createElement('img');
             img.src = "pecas/preto/pawn-b.svg";
-            img.classList.add('peca',);
+            img.classList.add('peca','peaoImg');
            
             const cell = document.getElementById(`cell-${i}`);
             cell.classList.add('peao');
+            cell.setAttribute('data-movimento', true);
+            cell.setAttribute('data-posicao', false);
             cell.classList.remove('vazia');
             cell.appendChild(img);
         }
@@ -29,7 +32,7 @@ function colocarPecas(cor){
     if(cor === 'branco'){
         const pecas = [["pecas/branco/rook-w.svg"],['pecas/branco/knight-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/king-w.svg'],['pecas/branco/queen-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/knight-w.svg'],["pecas/branco/rook-w.svg"]];
 
-        const classes = [['torre'],['cavalo'],['bispo'],['rei'],['rainha'],['bispo'],['cavalo'],['torre']];
+        const classes = [['torreBranca'],['cavaloBranco'],['bispoBranco'],['reiBranco'],['rainhaBranca'],['bispoBanco'],['cavaloBranco'],['torreBranca']];
         for(let i = 0; i <8; i++){
             const img = document.createElement('img');
             img.src = pecas[i];
@@ -37,17 +40,20 @@ function colocarPecas(cor){
            
             const cell = document.getElementById(`cell-${56+i}`);
             cell.classList.remove('vazia');
+            cell.setAttribute('data-posicao', false);
             cell.classList.add(classes[i]);
             cell.appendChild(img);
         }
         for(let i = 48; i < 56;i++){
             const img = document.createElement('img');
             img.src = "pecas/branco/pawn-w.svg";
-            img.classList.add('peca');
+            img.classList.add('peca','peaoImg');
            
             const cell = document.getElementById(`cell-${i}`);
+            cell.setAttribute('data-movimento', true);
+            cell.setAttribute('data-posicao', false);
             cell.classList.remove('vazia');
-            cell.classList.add('peao');
+            cell.classList.add('peao', 'peaoBranco');
             cell.appendChild(img);
         }
     }
