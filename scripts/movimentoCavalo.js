@@ -1,6 +1,6 @@
 
 
-import { resetarPosicao,limparMovimento,limparMovimentos,tabuleiro } from "./movimento.js";
+import { limparMovimento,limparMovimentos,tabuleiro } from "./movimento.js";
  export function movimentoCavalo(id){
 
     const idCell = Number(id.split('-')[1]);

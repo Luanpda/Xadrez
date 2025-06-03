@@ -32,7 +32,7 @@ function colocarPecas(cor){
     if(cor === 'branco'){
         const pecas = [["pecas/branco/rook-w.svg"],['pecas/branco/knight-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/king-w.svg'],['pecas/branco/queen-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/knight-w.svg'],["pecas/branco/rook-w.svg"]];
 
-        const classes = [['torreBranca'],['cavaloBranco'],['bispoBranco'],['reiBranco'],['rainhaBranca'],['bispoBanco'],['cavaloBranco'],['torreBranca']];
+        const classes = [['torreBranca'],['cavaloBranco'],['bispoBranco'],['reiBranco'],['rainhaBranca'],['bispoBranco'],['cavaloBranco'],['torreBranca']];
         for(let i = 0; i <8; i++){
             const img = document.createElement('img');
             img.src = pecas[i];

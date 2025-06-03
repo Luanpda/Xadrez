@@ -10,6 +10,7 @@ document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) =>
     const classes = Array.from(celula.classList);
     
     verificarCell(classes,celula.id);
+  
 
   }
 });
