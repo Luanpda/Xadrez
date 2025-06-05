@@ -1,94 +1,100 @@
 
+import { limparMovimento, limparMovimentos, tabuleiro } from "./movimento.js";
 
-import { limparMovimento,limparMovimentos,tabuleiro } from "./movimento.js";
- export function movimentoCavalo(id){
-
+export function movimentoCavalo(id) {
     const idCell = Number(id.split('-')[1]);
     const linha = Math.floor(idCell / 8);
     const coluna = idCell % 8;
     const cavalo = document.getElementById(id);
-   console.log(cavalo);
-
-   if (cavalo.dataset.posicao === 'true') {
-              limparMovimentos(); 
-              cavalo.setAttribute('data-posicao', 'false'); 
-              return;
-          }
-          limparMovimento();
-          cavalo.setAttribute('data-posicao', 'true');
-          limparMovimentos();
-
-   
-
-
-   // ordem, cima:direita 0 ,esquerda 1 / baixo: direita 2 esqueda 3 / direita:  cima 4  baixo 5 / esquerda: cima 6 esquerda 7
-   const movimentos = [[2,1],[2,-1],[-2,1],[-2,-1], [1,2], [-1,2], [1,-2],[-1,-2] ];
-
-   function movimentoL(){
+    const isBranco = cavalo.classList.contains('cavaloBranco');
+    const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
     
+    console.log(cavalo);
 
-      movimentos.forEach(([x,y]) => {
-         try{
-         const posicao = tabuleiro[linha+x][coluna+y];
-         
-         const cellPosicao = document.getElementById(`cell-${posicao}`);
-         
-         if(cellPosicao.classList.contains('vazia')){
-            
-            const igmPosicao = document.createElement('img');
-            console.log(cellPosicao);
-            igmPosicao.src= "pecas/button.png";
-            igmPosicao.classList.add('posicao')
-            cellPosicao.appendChild(igmPosicao);
-            cellPosicao.classList.add('posicao-cell');
+    if (cavalo.dataset.posicao === 'true') {
+        limparMovimentos();
+        cavalo.setAttribute('data-posicao', 'false');
+        return;
+    }
 
-             document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
-               const cell = evento.target.closest('.posicao-cell');
-               
-               if (!cell) return;
-               const pecaCliclada = document.querySelector('[data-posicao="true"]');
-               if (!pecaCliclada) return;
+    limparMovimento();
+    cavalo.setAttribute('data-posicao', 'true');
+    limparMovimentos();
 
-               limparMovimentos();
-               const imgInicial = pecaCliclada.querySelector('img');
-               const imgNova = document.createElement('img');
-               const isBranco = pecaCliclada.classList.contains('cavaloBranco');
+    const movimentos = [[2,1],[2,-1],[-2,1],[-2,-1], [1,2], [-1,2], [1,-2],[-1,-2]];
 
-               
+    function movimentoL() {
+        movimentos.forEach(([x, y]) => {
+            try {
+                const posicao = tabuleiro[linha + x][coluna + y];
+                const cellPosicao = document.getElementById(`cell-${posicao}`);
+                
 
-               imgNova.src = `${isBranco ? 'pecas/branco/knight-w.svg' : 'pecas/preto/knight-b.svg'}`;
-               imgNova.classList.add('peca', isBranco ? 'cavaloBranco' : 'cavalo');
-               
-               
+                if (cellPosicao.classList.contains('vazia')) {
+                    const igmPosicao = document.createElement('img');
+                    
+                    igmPosicao.src = "pecas/button.png";
+                    igmPosicao.classList.add('posicao');
+                    cellPosicao.appendChild(igmPosicao);
+                    cellPosicao.classList.add('posicao-cell');
+                }else{
+                     const cellBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
 
+                     if (isBranco) {
+                        if(!cellBranca){
+                           cellPosicao.classList.add('cell-marcada','posicao-cell');
+                       
 
-               if (imgInicial) pecaCliclada.removeChild(imgInicial);
+                        }
+                }
+                else{
+                     if(cellBranca){
+                    cellPosicao.classList.add('cell-marcada','posicao-cell');
+                     }
+                }
+                }
+                
 
-               pecaCliclada.classList.remove('cavaloBranco', 'cavalo');
-               pecaCliclada.classList.add('vazia');
-               pecaCliclada.removeAttribute('data-posicao');
+            } catch {
+                return;
+            }
+        });
+    }
 
-               
+    movimentoL();
 
-               cell.setAttribute('data-posicao', 'false');
-               cell.classList.remove('vazia');
-               cell.classList.add(isBranco ? 'cavaloBranco' : 'cavalo');
-               cell.appendChild(imgNova);
-             }, { once: true });
+    document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
+    const cell = evento.target.closest('.cell');
+    if (!cell || (!cell.classList.contains('posicao-cell') && !cell.classList.contains('cell-marcada'))) return;
 
-         }
-   
-      }
-       catch{
-         return;
-      }
-      });
-      
-      
+    const pecaCliclada = document.querySelector('[data-posicao="true"]');
+    if (!pecaCliclada) return;
+
+    limparMovimentos();
+
+    const imgInicial = pecaCliclada.querySelector('img');
+    if (imgInicial) pecaCliclada.removeChild(imgInicial);
+
+    const imgNova = document.createElement('img');
+    imgNova.src = `${isBranco ? 'pecas/branco/knight-w.svg' : 'pecas/preto/knight-b.svg'}`;
+    imgNova.classList.add('peca', isBranco ? 'cavaloBranco' : 'cavalo');
+
     
+    const imgAlvo = cell.querySelector('img');
+    if (imgAlvo) cell.removeChild(imgAlvo);
 
-   }
-   movimentoL();
+    
+    pecaCliclada.classList.remove('cavaloBranco', 'cavalo');
+    pecaCliclada.classList.add('vazia');
+    pecaCliclada.removeAttribute('data-posicao');
 
+    
+    cell.setAttribute('data-posicao', 'false');
+    cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
+    cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
+    cell.classList.add(isBranco ? 'cavaloBranco' : 'cavalo');
+    cell.appendChild(imgNova);
+}, { once: true });
 
- }
+}

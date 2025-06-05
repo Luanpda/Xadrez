@@ -6,6 +6,9 @@ export function movimentoRei(id){
         const linha = Math.floor(idCell / 8);
         const coluna = idCell % 8;
         const rei = document.getElementById(id);
+        const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
+        const isBranco = rei.classList.contains('reiBranco');
     
           if (rei.dataset.posicao === 'true') {
                   limparMovimentos(); 
@@ -45,9 +48,24 @@ export function movimentoRei(id){
                         igmPosicao.src= "pecas/button.png";
                         igmPosicao.classList.add('posicao');
                         cellPosicao.appendChild(igmPosicao);
+                }else{
+                    const cellBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           cellPosicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        cellPosicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
+                    
                 }
                 }catch{
-                    
+                    return;
                 }
 
                
@@ -68,7 +86,7 @@ export function movimentoRei(id){
                             limparMovimentos();
                             const imgInicial = pecaCliclada.querySelector('img');
                             const imgNova = document.createElement('img');
-                            const isBranco = pecaCliclada.classList.contains('reiBranco');
+                            
     
                             
     
@@ -76,7 +94,8 @@ export function movimentoRei(id){
                             imgNova.classList.add('peca', isBranco ? 'reiBranco' : 'rei');
                             
                             
-    
+                            const imgAlvo = cell.querySelector('img');
+                            if (imgAlvo) cell.removeChild(imgAlvo);
     
                             if (imgInicial) pecaCliclada.removeChild(imgInicial);
     
@@ -87,7 +106,8 @@ export function movimentoRei(id){
                             
     
                             cell.setAttribute('data-posicao', 'false');
-                            cell.classList.remove('vazia');
+                            cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
+                            cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
                             cell.classList.add(isBranco ? 'reiBranco' : 'rei');
                             cell.appendChild(imgNova);
                             }, { once: true });

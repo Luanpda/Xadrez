@@ -47,7 +47,7 @@ function colocarPecas(cor){
         for(let i = 48; i < 56;i++){
             const img = document.createElement('img');
             img.src = "pecas/branco/pawn-w.svg";
-            img.classList.add('peca','peaoImg');
+            img.classList.add('peca','peaoImg',);
            
             const cell = document.getElementById(`cell-${i}`);
             cell.setAttribute('data-movimento', true);

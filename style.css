@@ -25,7 +25,9 @@ body{
   object-fit: contain;
 }
 
-
+.cell-marcada{
+  background-color: red !important;
+}
 
 .tabuleiro{
     width: 680px;

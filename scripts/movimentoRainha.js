@@ -6,6 +6,9 @@ export function movimentoRainha(id){
         const linha = Math.floor(idCell / 8);
         const coluna = idCell % 8;
         const rainha = document.getElementById(id);
+        const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
+        const isBranco = rainha.classList.contains('rainhaBranca');
     
           if (rainha.dataset.posicao === 'true') {
                   limparMovimentos(); 
@@ -41,6 +44,19 @@ export function movimentoRainha(id){
                         igmPosicao.classList.add('posicao');
                         cellPosicao.appendChild(igmPosicao);
                 }else{
+                    const cellBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           cellPosicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        cellPosicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
                     break;
                 }
                 }catch{
@@ -91,8 +107,21 @@ export function movimentoRainha(id){
     
     
                     }else{
+                        const cellBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
+                        if (isBranco) {
+                            if(!cellBranca){
+                            cellPosicao.classList.add('cell-marcada','posicao-cell');
+                        
+
+                            }
+                        }
+                        else{
+                            if(cellBranca){
+                            cellPosicao.classList.add('cell-marcada','posicao-cell');
+                            }
+                        }
                         break;
-                    }
+                }
                 } catch  {
                     return;
                     
@@ -113,7 +142,7 @@ export function movimentoRainha(id){
                             limparMovimentos();
                             const imgInicial = pecaCliclada.querySelector('img');
                             const imgNova = document.createElement('img');
-                            const isBranco = pecaCliclada.classList.contains('rainhaBranca');
+                            
     
                             
     
@@ -121,7 +150,8 @@ export function movimentoRainha(id){
                             imgNova.classList.add('peca', isBranco ? 'rainhaBranca' : 'rainha');
                             
                             
-    
+                            const imgAlvo = cell.querySelector('img');
+                            if (imgAlvo) cell.removeChild(imgAlvo);
     
                             if (imgInicial) pecaCliclada.removeChild(imgInicial);
     
@@ -132,7 +162,8 @@ export function movimentoRainha(id){
                             
     
                             cell.setAttribute('data-posicao', 'false');
-                            cell.classList.remove('vazia');
+                            cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
+                            cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
                             cell.classList.add(isBranco ? 'rainhaBranca' : 'rainha');
                             cell.appendChild(imgNova);
                             }, { once: true });

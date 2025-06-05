@@ -5,6 +5,9 @@ export function movimentoBispo(id){
     const linha = Math.floor(idCell / 8);
     const coluna = idCell % 8;
     const bispo = document.getElementById(id);
+    const isBranco = bispo.classList.contains('bispoBranco');
+    const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
 
       if (bispo.dataset.posicao === 'true') {
               limparMovimentos(); 
@@ -41,42 +44,22 @@ export function movimentoBispo(id){
                     igmPosicao.classList.add('posicao');
                     cellPosicao.appendChild(igmPosicao);
 
-                    document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
-                        const cell = evento.target.closest('.posicao-cell');
-                        
-                        if (!cell) return;
-                        const pecaCliclada = document.querySelector('[data-posicao="true"]');
-                        if (!pecaCliclada) return;
-
-                        limparMovimentos();
-                        const imgInicial = pecaCliclada.querySelector('img');
-                        const imgNova = document.createElement('img');
-                        const isBranco = pecaCliclada.classList.contains('bispoBranco');
-
-                        
-
-                        imgNova.src = `${isBranco ? 'pecas/branco/bishop-w.svg' : 'pecas/preto/bishop-b.svg'}`;
-                        imgNova.classList.add('peca', isBranco ? 'bispoBranco' : 'bispo');
-                        
-                        
-
-
-                        if (imgInicial) pecaCliclada.removeChild(imgInicial);
-
-                        pecaCliclada.classList.remove('bispoBranco', 'bispo');
-                        pecaCliclada.classList.add('vazia');
-                        pecaCliclada.removeAttribute('data-posicao');
-
-                        
-
-                        cell.setAttribute('data-posicao', 'false');
-                        cell.classList.remove('vazia');
-                        cell.classList.add(isBranco ? 'bispoBranco' : 'bispo');
-                        cell.appendChild(imgNova);
-                        }, { once: true });
-
+                    
 
                 }else{
+                    const cellBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           cellPosicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        cellPosicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
                     break;
                 }
             } catch  {
@@ -89,5 +72,41 @@ export function movimentoBispo(id){
          }
 
     }
+    document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
+                        const cell = evento.target.closest('.posicao-cell');
+                        
+                        if (!cell) return;
+                        const pecaCliclada = document.querySelector('[data-posicao="true"]');
+                        if (!pecaCliclada) return;
+
+                        limparMovimentos();
+                        const imgInicial = pecaCliclada.querySelector('img');
+                        const imgNova = document.createElement('img');
+                        
+
+                        
+
+                        imgNova.src = `${isBranco ? 'pecas/branco/bishop-w.svg' : 'pecas/preto/bishop-b.svg'}`;
+                        imgNova.classList.add('peca', isBranco ? 'bispoBranco' : 'bispo');
+                        
+                        
+
+                        const imgAlvo = cell.querySelector('img');
+                        if (imgAlvo) cell.removeChild(imgAlvo);
+                        if (imgInicial) pecaCliclada.removeChild(imgInicial);
+
+                        pecaCliclada.classList.remove('bispoBranco', 'bispo');
+                        pecaCliclada.classList.add('vazia');
+                        pecaCliclada.removeAttribute('data-posicao');
+
+                        
+
+                        cell.setAttribute('data-posicao', 'false');
+                        cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
+                        cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
+                        cell.classList.add(isBranco ? 'bispoBranco' : 'bispo');
+                        cell.appendChild(imgNova);
+                        }, { once: true });
+
     
 }

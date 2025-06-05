@@ -15,12 +15,16 @@ export const tabuleiro = [
 export function limparMovimentos() {
     const botoes = document.querySelectorAll('img.posicao');
     const posicao = document.querySelectorAll('div.posicao-cell');
+    const cellMarcada = document.querySelectorAll('div.cell-marcada');
+    cellMarcada.forEach(cell => cell.classList.remove('cell-marcada'));
     botoes.forEach(botao => botao.remove());
     posicao.forEach(posicao => posicao.classList.remove('posicao-cell'));
 }
 
 export function limparMovimento(){
     const pecas = document.querySelectorAll('[data-posicao="true"]');
+    
+    
     pecas.forEach(peca => peca.setAttribute('data-posicao', 'false'));
 
 }
@@ -43,6 +47,9 @@ export function movimentoTorre(id){
     const linha = Math.floor(idCell / 8);
     const coluna = idCell % 8;
     const torre = document.getElementById(id);
+    const isBranco = torre.classList.contains('torreBranca');
+     const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
     
     
 
@@ -69,8 +76,22 @@ export function movimentoTorre(id){
                 posicao.appendChild(img);
                 
             }else{
-                break;
-            }
+                    const cellBranca = Array.from(posicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           posicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        posicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
+                    break;
+                    
+                }
             
     }
     //esquerda
@@ -87,8 +108,22 @@ export function movimentoTorre(id){
                 posicao.appendChild(img);
                 
             }else{
-                break;
-            }
+                    const cellBranca = Array.from(posicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           posicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        posicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
+                    break;
+                    
+                }
             
     }
 
@@ -107,8 +142,22 @@ export function movimentoTorre(id){
             posicao.appendChild(img);
             
         }else{
-                break;
-            }
+                    const cellBranca = Array.from(posicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           posicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        posicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
+                    break;
+                    
+                }
         
     }   
      //baixo
@@ -125,8 +174,22 @@ export function movimentoTorre(id){
             posicao.appendChild(img);
             
         }else{
-                break;
-            }
+                    const cellBranca = Array.from(posicao.classList).some(classe => classe.includes('Branc'));
+                     if (isBranco) {
+                        if(!cellBranca){
+                           posicao.classList.add('cell-marcada','posicao-cell');
+                       
+
+                        }
+                    }
+                    else{
+                        if(cellBranca){
+                        posicao.classList.add('cell-marcada','posicao-cell');
+                        }
+                    }
+                    break;
+                    
+                }
         
     }
    
@@ -142,7 +205,7 @@ export function movimentoTorre(id){
 
         const imgInicial = pecaCliclada.querySelector('img');
         const imgNova = document.createElement('img');
-        const isBranco = pecaCliclada.classList.contains('torreBranca');
+        
 
        
 
@@ -150,7 +213,8 @@ export function movimentoTorre(id){
         imgNova.classList.add('peca', isBranco ? 'torreBranca' : 'torre');
         
         
-
+        const imgAlvo = cell.querySelector('img');
+        if (imgAlvo) cell.removeChild(imgAlvo);
 
         if (imgInicial) pecaCliclada.removeChild(imgInicial);
 
@@ -161,7 +225,8 @@ export function movimentoTorre(id){
        
 
         cell.setAttribute('data-posicao', 'false');
-        cell.classList.remove('vazia');
+        cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
+        cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
         cell.classList.add(isBranco ? 'torreBranca' : 'torre');
         cell.appendChild(imgNova); 
        
