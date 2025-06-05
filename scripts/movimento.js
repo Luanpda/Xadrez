@@ -241,6 +241,8 @@ export function movimentoPeao(id) {
     const peao = document.getElementById(id);
     const linha = Math.floor(idCell / 8);
     const coluna = idCell % 8;
+    const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
 
     if (peao.dataset.posicao === 'true') {
         limparMovimentos(); 
@@ -255,9 +257,45 @@ export function movimentoPeao(id) {
     const isBranco = peao.classList.contains('peaoBranco');
     const direcao = isBranco ? -8 : 8;
     const inicio = isBranco ? 6 : 1; 
+    const direcoesDiagonal = [
+        -7, //Branco Direita 
+        -9, // Branco esqueda
+        9, // Preto direita
+        7 //preto esquerda
+
+    ]
 
     const idFrente1 = idCell + direcao;
+    const idDiagonalD = idCell + (isBranco ? direcoesDiagonal[0] : direcoesDiagonal[2]);
+    const idDiagonalE = idCell + (isBranco ? direcoesDiagonal[1] : direcoesDiagonal[3]);
+    const cellDireita = document.getElementById(`cell-${idDiagonalD}`);
+    const cellEsquerda = document.getElementById(`cell-${idDiagonalE}`);
+    
+
     const celulaFrente1 = document.getElementById(`cell-${idFrente1}`);
+   
+    const cellBrancaE = Array.from(cellEsquerda.classList).some(classe => classe.includes('Branc'));
+   
+    if(cellDireita &&  !cellDireita.classList.contains('vazia')){
+         const cellBrancaD = Array.from(cellDireita.classList).some(classe => classe.includes('Branc'));
+
+         if (isBranco && !cellBrancaD) {
+            cellDireita.classList.add('cell-marcada', 'posicao-cell');
+        } else if (!isBranco && cellBrancaD) {
+        cellDireita.classList.add('cell-marcada', 'posicao-cell');
+    }
+      
+    }
+    if (cellEsquerda && !cellEsquerda.classList.contains('vazia')) {
+    const cellBrancaE = Array.from(cellEsquerda.classList).some(classe => classe.includes('Branc'));
+    if (isBranco && !cellBrancaE) {
+        cellEsquerda.classList.add('cell-marcada', 'posicao-cell');
+    } else if (!isBranco && cellBrancaE) {
+        cellEsquerda.classList.add('cell-marcada', 'posicao-cell');
+    }
+}
+    
+    
 
     if (celulaFrente1 && celulaFrente1.classList.contains('vazia')) {
         celulaFrente1.classList.add('posicao-cell');
@@ -298,6 +336,9 @@ export function movimentoPeao(id) {
         novoPeao.src = isBranco ? "pecas/branco/pawn-w.svg" : "pecas/preto/pawn-b.svg";
         novoPeao.classList.add('peca', 'peaoImg');
 
+        const imgAlvo = destino.querySelector('img');
+        if (imgAlvo) destino.removeChild(imgAlvo);
+
         if (imgAtual) peaoInicial.removeChild(imgAtual);
 
         peaoInicial.classList.remove('peao', 'peaoBranco');
@@ -305,7 +346,8 @@ export function movimentoPeao(id) {
         peaoInicial.removeAttribute('data-posicao');
         peaoInicial.removeAttribute('data-movimento');
 
-        destino.classList.remove('vazia');
+        destino.classList.remove(...Array.from(destino.classList).filter(classe => classesPecas.includes(classe)));
+        destino.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
         destino.classList.add('peao');
         if (isBranco) destino.classList.add('peaoBranco');
         destino.setAttribute('data-posicao', 'false');

@@ -40,7 +40,8 @@ export function movimentoRei(id){
                 const cellId = `cell-${tabuleiro[i][j]}`;
                 const cellPosicao= document.getElementById(cellId);
                 
-                console.log(cellPosicao);
+                
+                
                 try{
                     if(cellPosicao.classList.contains('vazia')){
                         cellPosicao.classList.add('posicao-cell');
