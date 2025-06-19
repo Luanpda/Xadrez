@@ -7,9 +7,7 @@
 
 body{
     background-color: var(--cor-de-fundo);
-     display: flex;
-     justify-content: center;
-     align-items: center;
+     
    
 }
 .container {
@@ -19,6 +17,13 @@ body{
   
  
 }
+.turno{
+  margin-left: 5%;
+}
+.botao{
+  margin-right: 5%;
+}
+
 .posicao{
     max-width: 40%;
   max-height: 40%;
@@ -26,14 +31,17 @@ body{
 }
 
 .cell-marcada{
-  background-color: red !important;
+  background-color: 	#FF0000!important;
 }
 
 .tabuleiro{
-    width: 680px;
-  height: 680px;
+    width:85vmin;
+    height: 85vmin;
+    max-width: 680px; 
+    max-height: 680px; 
+    margin-top: 1rem;
     grid-template-columns: repeat(8, 1fr);
-    margin-top: 2rem;
+    
 }
 .tabuleiro div{
     aspect-ratio: 1;

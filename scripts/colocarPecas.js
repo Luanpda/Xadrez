@@ -1,3 +1,5 @@
+
+
 function colocarPecas(cor){
     if(cor === 'preto'){
         const pecas = [["pecas/preto/rook-b.svg"],['pecas/preto/knight-b.svg'],['pecas/preto/bishop-b.svg'],['pecas/preto/queen-b.svg'],
@@ -12,6 +14,7 @@ function colocarPecas(cor){
             const cell = document.getElementById(`cell-${i}`);
             cell.classList.remove('vazia');
             cell.setAttribute('data-posicao', false);
+            cell.setAttribute('data-turno','false');
             cell.classList.add(classes[i]);
             cell.appendChild(img);
         }
@@ -25,14 +28,15 @@ function colocarPecas(cor){
             cell.classList.add('peao');
             cell.setAttribute('data-movimento', true);
             cell.setAttribute('data-posicao', false);
+            cell.setAttribute('data-turno','false');
             cell.classList.remove('vazia');
             cell.appendChild(img);
         }
     }
     if(cor === 'branco'){
-        const pecas = [["pecas/branco/rook-w.svg"],['pecas/branco/knight-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/king-w.svg'],['pecas/branco/queen-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/knight-w.svg'],["pecas/branco/rook-w.svg"]];
+        const pecas = [["pecas/branco/rook-w.svg"],['pecas/branco/knight-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/queen-w.svg'],['pecas/branco/king-w.svg'],['pecas/branco/bishop-w.svg'],['pecas/branco/knight-w.svg'],["pecas/branco/rook-w.svg"]];
 
-        const classes = [['torreBranca'],['cavaloBranco'],['bispoBranco'],['reiBranco'],['rainhaBranca'],['bispoBranco'],['cavaloBranco'],['torreBranca']];
+        const classes = [['torreBranca'],['cavaloBranco'],['bispoBranco'],['rainhaBranca'],['reiBranco'],['bispoBranco'],['cavaloBranco'],['torreBranca']];
         for(let i = 0; i <8; i++){
             const img = document.createElement('img');
             img.src = pecas[i];
@@ -41,6 +45,7 @@ function colocarPecas(cor){
             const cell = document.getElementById(`cell-${56+i}`);
             cell.classList.remove('vazia');
             cell.setAttribute('data-posicao', false);
+            cell.setAttribute('data-turno','true');
             cell.classList.add(classes[i]);
             cell.appendChild(img);
         }
@@ -52,11 +57,15 @@ function colocarPecas(cor){
             const cell = document.getElementById(`cell-${i}`);
             cell.setAttribute('data-movimento', true);
             cell.setAttribute('data-posicao', false);
+            cell.setAttribute('data-turno','true');
+            
             cell.classList.remove('vazia');
             cell.classList.add('peao', 'peaoBranco');
+            
             cell.appendChild(img);
         }
     }
+    
 }
 colocarPecas('branco');
 colocarPecas('preto');

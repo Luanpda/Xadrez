@@ -1,5 +1,5 @@
 import { limparMovimento,limparMovimentos,tabuleiro } from "./movimento.js";
-
+import { alternarTurno } from "./turno.js";
 export function movimentoBispo(id){
     const idCell = Number(id.split('-')[1]);
     const linha = Math.floor(idCell / 8);
@@ -8,6 +8,7 @@ export function movimentoBispo(id){
     const isBranco = bispo.classList.contains('bispoBranco');
     const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
                       'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
+    if(bispo.dataset.turno === 'false') return;
 
       if (bispo.dataset.posicao === 'true') {
               limparMovimentos(); 
@@ -18,7 +19,7 @@ export function movimentoBispo(id){
           bispo.setAttribute('data-posicao', 'true');
           limparMovimentos();
 
-          let soma = 1;
+          
       const direcoes = [
         { dl: 1, dc: 1 },   // inferior direita
         { dl: 1, dc: -1 },  // inferior esquerda
@@ -106,6 +107,8 @@ export function movimentoBispo(id){
                         cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
                         cell.classList.add(isBranco ? 'bispoBranco' : 'bispo');
                         cell.appendChild(imgNova);
+                        cell.setAttribute('data-turno', 'false');
+                        alternarTurno();
                         }, { once: true });
 
     

@@ -1,3 +1,19 @@
+import { alternarTurno } from "./turno.js";
+
+
+
+const tabuleiroPeao = [
+  [  0,  1,  2,  3,  4,  5,  6,  7,  8,  9 ],
+  [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ],
+  [ 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ],
+  [ 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 ],
+  [ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49 ],
+  [ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59 ],
+  [ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69 ],
+  [ 70, 71, 72, 73, 74, 75, 76, 77, 78, 79 ],
+  [ 80, 81, 82, 83, 84, 85, 86, 87, 88, 89 ],
+  [ 90, 91, 92, 93, 94, 95, 96, 97, 98, 99 ]
+];
 
 
 export const tabuleiro = [
@@ -10,6 +26,7 @@ export const tabuleiro = [
   [48, 49, 50, 51, 52, 53, 54, 55], 
   [56, 57, 58, 59, 60, 61, 62, 63]  
 ];
+
 
 
 export function limparMovimentos() {
@@ -52,6 +69,7 @@ export function movimentoTorre(id){
                       'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
     
     
+    if (torre.dataset.turno === `false`) return;
 
     if (torre.dataset.posicao === 'true') {
         limparMovimentos(); 
@@ -229,7 +247,8 @@ export function movimentoTorre(id){
         cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
         cell.classList.add(isBranco ? 'torreBranca' : 'torre');
         cell.appendChild(imgNova); 
-       
+        cell.setAttribute('data-turno', 'false');
+        alternarTurno();
     }, { once: true });
 
    
@@ -237,16 +256,53 @@ export function movimentoTorre(id){
 }
 
 export function movimentoPeao(id) {
+    function getTabuleiro() {
+        if (document.getElementById(`cell-99`)) {
+            return [
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+                [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+                [30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
+                [40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+                [50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
+                [60, 61, 62, 63, 64, 65, 66, 67, 68, 69],
+                [70, 71, 72, 73, 74, 75, 76, 77, 78, 79],
+                [80, 81, 82, 83, 84, 85, 86, 87, 88, 89],
+                [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+            ];
+        } else {
+            return [
+                [0, 1, 2, 3, 4, 5, 6, 7],
+                [8, 9, 10, 11, 12, 13, 14, 15],
+                [16, 17, 18, 19, 20, 21, 22, 23],
+                [24, 25, 26, 27, 28, 29, 30, 31],
+                [32, 33, 34, 35, 36, 37, 38, 39],
+                [40, 41, 42, 43, 44, 45, 46, 47],
+                [48, 49, 50, 51, 52, 53, 54, 55],
+                [56, 57, 58, 59, 60, 61, 62, 63]
+            ];
+        }
+    }
+
+    const tabuleiro = getTabuleiro();
+    const colunas = tabuleiro[0].length;
+
     const idCell = Number(id.split('-')[1]);
     const peao = document.getElementById(id);
-    const linha = Math.floor(idCell / 8);
-    const coluna = idCell % 8;
-    const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
-                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
+    const linha = Math.floor(idCell / colunas);
+    const coluna = idCell % colunas;
+    const isBranco = peao.classList.contains('peaoBranco');
+
+    const classesPecas = [
+        'peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
+        'peaoBranco', 'torreBranca', 'bispoBranca', 'cavaloBranco', 'rainhaBranca', 'reiBranca','ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','garca' ,'garcaBranco'
+    ];
+
+    if (peao.dataset.turno === `false`) return;
 
     if (peao.dataset.posicao === 'true') {
-        limparMovimentos(); 
-        peao.setAttribute('data-posicao', 'false'); 
+        limparMovimentos();
+        peao.setAttribute('data-posicao', 'false');
         return;
     }
 
@@ -254,48 +310,37 @@ export function movimentoPeao(id) {
     limparMovimentos();
     peao.setAttribute('data-posicao', 'true');
 
-    const isBranco = peao.classList.contains('peaoBranco');
-    const direcao = isBranco ? -8 : 8;
-    const inicio = isBranco ? 6 : 1; 
-    const direcoesDiagonal = [
-        -7, //Branco Direita 
-        -9, // Branco esqueda
-        9, // Preto direita
-        7 //preto esquerda
+    const direcao = isBranco ? -colunas : colunas;
+    const inicio = isBranco ? tabuleiro.length - 2 : 1;
 
-    ]
+    const direcoesDiagonal = [
+        -colunas + 1,
+        -colunas - 1,
+        colunas + 1,
+        colunas - 1
+    ];
 
     const idFrente1 = idCell + direcao;
     const idDiagonalD = idCell + (isBranco ? direcoesDiagonal[0] : direcoesDiagonal[2]);
     const idDiagonalE = idCell + (isBranco ? direcoesDiagonal[1] : direcoesDiagonal[3]);
+
     const cellDireita = document.getElementById(`cell-${idDiagonalD}`);
     const cellEsquerda = document.getElementById(`cell-${idDiagonalE}`);
-    
-
     const celulaFrente1 = document.getElementById(`cell-${idFrente1}`);
-   
-    const cellBrancaE = Array.from(cellEsquerda.classList).some(classe => classe.includes('Branc'));
-   
-    if(cellDireita &&  !cellDireita.classList.contains('vazia')){
-         const cellBrancaD = Array.from(cellDireita.classList).some(classe => classe.includes('Branc'));
 
-         if (isBranco && !cellBrancaD) {
+    if (cellDireita && !cellDireita.classList.contains('vazia')) {
+        const cellBrancaD = Array.from(cellDireita.classList).some(classe => classe.includes('Branc'));
+        if ((isBranco && !cellBrancaD) || (!isBranco && cellBrancaD)) {
             cellDireita.classList.add('cell-marcada', 'posicao-cell');
-        } else if (!isBranco && cellBrancaD) {
-        cellDireita.classList.add('cell-marcada', 'posicao-cell');
+        }
     }
-      
-    }
+
     if (cellEsquerda && !cellEsquerda.classList.contains('vazia')) {
-    const cellBrancaE = Array.from(cellEsquerda.classList).some(classe => classe.includes('Branc'));
-    if (isBranco && !cellBrancaE) {
-        cellEsquerda.classList.add('cell-marcada', 'posicao-cell');
-    } else if (!isBranco && cellBrancaE) {
-        cellEsquerda.classList.add('cell-marcada', 'posicao-cell');
+        const cellBrancaE = Array.from(cellEsquerda.classList).some(classe => classe.includes('Branc'));
+        if ((isBranco && !cellBrancaE) || (!isBranco && cellBrancaE)) {
+            cellEsquerda.classList.add('cell-marcada', 'posicao-cell');
+        }
     }
-}
-    
-    
 
     if (celulaFrente1 && celulaFrente1.classList.contains('vazia')) {
         celulaFrente1.classList.add('posicao-cell');
@@ -338,7 +383,6 @@ export function movimentoPeao(id) {
 
         const imgAlvo = destino.querySelector('img');
         if (imgAlvo) destino.removeChild(imgAlvo);
-
         if (imgAtual) peaoInicial.removeChild(imgAtual);
 
         peaoInicial.classList.remove('peao', 'peaoBranco');
@@ -352,6 +396,9 @@ export function movimentoPeao(id) {
         if (isBranco) destino.classList.add('peaoBranco');
         destino.setAttribute('data-posicao', 'false');
         destino.setAttribute('data-movimento', 'false');
+        destino.setAttribute('data-turno', 'false');
         destino.appendChild(novoPeao);
+
+        alternarTurno();
     }, { once: true });
 }

@@ -3,6 +3,12 @@ import { movimentoCavalo } from "./movimentoCavalo.js";
 import { movimentoBispo } from "./movimentoBispo.js";
 import { movimentoRainha } from "./movimentoRainha.js";
 import { movimentoRei } from "./movimentoRei.js";
+import { movimentoElefante } from "./movimentoElefante.js";
+import { movimentoGato } from "./movimentoGato.js";
+import { movimentoGarca } from "./movimentoGarca.js";
+import { movimentoGafanhoto } from "./movimemtoGafanhoto.js";
+import { movimentoCamelo } from "./movimentoCamelo.js";
+import { movimentoOrnamento } from "./movimentoOrnamento.js";
 
 export function verificarCell(classes,id){
     if( classes.includes('torre') || classes.includes('torreBranca')){
@@ -28,6 +34,30 @@ export function verificarCell(classes,id){
     if( classes.includes('peao')  ){
         if(classes.includes('cell-marcada')) return;
         movimentoPeao(id);
+    }
+    if( classes.includes('elefante')  || classes.includes('elefanteBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoElefante(id);
+    }
+    if( classes.includes('gato')  || classes.includes('gatoBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoGato(id);
+    }
+    if( classes.includes('garca')  || classes.includes('garcaBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoGarca(id);
+    }
+    if( classes.includes('gafanhoto')  || classes.includes('gafanhotoBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoGafanhoto(id);
+    }
+    if( classes.includes('camelo')  || classes.includes('cameloBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoCamelo(id);
+    }
+    if( classes.includes('ornamento')  || classes.includes('ornamentoBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoOrnamento(id);
     }
 
 }
