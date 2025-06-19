@@ -17,7 +17,7 @@ export async function chamarIA() {
 
 
  async function pedirJogadaDaIA(fen) {
-    const urlServidor = 'http://127.0.0.1:5000/get_move';
+    const urlServidor = 'https://bulkyjungle13.pythonanywhere.com/get_move';
     try {
         const resposta = await fetch(urlServidor, {
             method: 'POST',
