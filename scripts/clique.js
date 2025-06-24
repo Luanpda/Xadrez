@@ -1,7 +1,16 @@
 import { limparMovimentos } from "./movimento.js";
 import { verificarCell } from "./verificarCell.js";
 import { colocarPecasNew } from "./colocarPecasNew.js";
-import { gerarFenDoTabuleiro } from "./gerarFen.js";
+import { criarTabuleiro8x8,colocarPecas } from "./colocarPecas.js";
+
+import { getModoDeJogo,setModoJogo } from "./colocarPecas.js";
+
+
+
+
+
+
+
 document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
   const celula = evento.target.closest('.cell');
  
@@ -24,9 +33,10 @@ document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) =>
 
 });
 
-document.querySelector('.titulo').addEventListener('pointerdown',(evento) => {
+document.getElementById('container-menu').addEventListener('pointerdown',(evento) => {
    const botao = evento.target.closest('.btn');
-   if(botao ){
+   if(!botao) return;
+   if(botao.id === 'modo-xadrez2'){
     const  tabuleiro = document.querySelectorAll('.cell');
     tabuleiro.forEach(peca => {
       peca.remove()
@@ -51,6 +61,20 @@ document.querySelector('.titulo').addEventListener('pointerdown',(evento) => {
     }
 
     tabuleiro.appendChild(cell);
+
+    botao.classList.add('d-none')
+    const botao2P = document.getElementById('modo-local');
+    botao2P.classList.remove('d-none');
+
+    const botaoIA = document.getElementById("modo-bot");
+    botaoIA.classList.add("d-none");
+
+    
+    const turno = document.getElementById('turno');
+    turno.innerHTML = 'Turno: Brancas';
+
+    const modoJogo  = document.getElementById('modo-jogo-atual');
+    modoJogo.innerHTML= 'Modo Atual: 2P Xadrez 2'
 }
 
   colocarPecasNew()
@@ -58,4 +82,45 @@ document.querySelector('.titulo').addEventListener('pointerdown',(evento) => {
 
 
    }
+   if(botao.id === 'modo-local'){
+    criarTabuleiro8x8();
+    colocarPecas('branco');
+    colocarPecas('preto');
+    setModoJogo('local')
+    botao.classList.add('d-none')
+    const botaoXadrez2 = document.getElementById('modo-xadrez2')
+    botaoXadrez2.classList.remove('d-none');
+
+    const turno = document.getElementById('turno');
+    turno.innerHTML = 'Turno: Brancas';
+
+    const botaoIA = document.getElementById("modo-bot");
+    botaoIA.classList.remove("d-none");
+
+
+    const modoJogo  = document.getElementById('modo-jogo-atual');
+    modoJogo.innerHTML= 'Modo Atual: 2P Xadrez Normal'
+   }
+   if(botao.id === 'modo-bot'){
+
+    botao.classList.add('d-none')
+    const botao2P = document.getElementById('modo-local')
+    botao2P.classList.remove('d-none');
+
+    const xadrez2 = document.getElementById("modo-xadrez2");
+    xadrez2.classList.add('d-none');
+
+
+    const turno = document.getElementById('turno');
+    turno.innerHTML = 'Turno: Brancas';
+
+    const modoJogo  = document.getElementById('modo-jogo-atual');
+    modoJogo.innerHTML= 'Modo Atual: Contra IA'
+    
+    setModoJogo('IA')
+    criarTabuleiro8x8();
+    colocarPecas('branco');
+    colocarPecas('preto');
+   }
+
 })

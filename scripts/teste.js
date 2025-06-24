@@ -1,5 +1,5 @@
 import { gerarFenDoTabuleiro } from "./gerarFen.js";
-
+import { movimentoIA } from "./MovimentoIA.js";
 export async function chamarIA() {
     
     const fenAtual = gerarFenDoTabuleiro();
@@ -11,6 +11,8 @@ export async function chamarIA() {
         
         if (jogadaDaIA_UCI) {
             console.log(jogadaDaIA_UCI)
+            movimentoIA(jogadaDaIA_UCI)
+
         }
     }
 }
@@ -25,6 +27,7 @@ export async function chamarIA() {
             body: JSON.stringify({ fen: fen }),
         });
         const dados = await resposta.json();
+        
         return dados.movimento;
     } catch (erro) {
         console.error("Falha ao comunicar com a IA:", erro);

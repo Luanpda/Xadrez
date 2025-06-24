@@ -239,7 +239,7 @@ export function movimentoTorre(id){
         pecaCliclada.classList.remove('torreBranca', 'torre');
         pecaCliclada.classList.add('vazia');
         pecaCliclada.removeAttribute('data-posicao');
-
+        pecaCliclada.removeAttribute('data-movimentoroque')
        
 
         cell.setAttribute('data-posicao', 'false');

@@ -14,14 +14,30 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  
  
 }
+
+#container-menu{
+  background-color: #212121;
+  min-height: 15em;
+  min-width: 15em;
+  border-radius: 20px;
+  margin: 0 2rem;
+}
+.spacer {
+   min-height: 15em;
+    min-width: 15em;
+    visibility: hidden;
+}
+
 .turno{
   margin-left: 5%;
 }
 .botao{
   margin-right: 5%;
+}
+.botao-modo-jogo{
+  width: 8em;
 }
 
 .posicao{
@@ -63,4 +79,20 @@ body{
   max-width: 80%;
   max-height: 80%;
   object-fit: contain;
+}
+
+
+
+.tabuleiro .h1,
+.tabuleiro .h2,
+.tabuleiro .h3,
+.tabuleiro .h4,
+.tabuleiro .h5,
+.tabuleiro .h6 {
+    font-size: inherit;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: initial;
+    color: inherit;
 }

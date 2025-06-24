@@ -1,6 +1,7 @@
 import { chamarIA } from "./teste.js";
-
+import { getModoDeJogo } from "./colocarPecas.js";
 const turno = document.getElementById('turno');
+
 
 let movimentoAtual = gerarMovimento();
 
@@ -34,9 +35,13 @@ const divsPretos = Array.from(todasPecas).filter(peca => {
         divsBrancos.forEach(peca => peca.dataset.turno = 'false');
         divsPretos.forEach(peca => peca.dataset.turno = 'true');
         atualizarMovimento()
+        const modoAtual = getModoDeJogo();
         
          turno.innerHTML = 'Turno: Preto';
-         chamarIA()
+         if(modoAtual === 'IA'){
+            chamarIA();
+         }
+         
          
     }else {
         divsPretos.forEach(peca => peca.dataset.turno = 'false');

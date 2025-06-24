@@ -8,45 +8,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class=" d-flex justify-content-between  titulo">
+    <div class=" d-flex justify-content-around  titulo mt-1 align-items-center">
         <h1  id="turno"   class="text-white turno">Turno: Brancas</h1>
-        <button id="modo-1" class="btn btn-info botao">Xadrez 2 </button>
-    </div>
-    
-    <div class="container">
+        <h1  id="modo-jogo-atual"   class="text-white ">Modo Atual: 2P Xadrez Normal </h1>
         
-        <div class="d-grid tabuleiro "></div>
-
     </div>
+
     
-  
-    <script>
-    
-        for (let i = 0; i < 64; i++) {
-    const tabuleiro = document.querySelector('.tabuleiro');
-    const img = document.createElement('img')
-    const cell = document.createElement('div');
-    cell.classList.add('cell','vazia');
-
-    const linha = Math.floor(i / 8); 
-    const coluna = i % 8;
-
-    cell.id = `cell-${i}`;
-    
-    
-    if ((linha + coluna) % 2 === 0) {
-        cell.classList.add('branca');
-    } else {
-        cell.classList.add('marcada');
-    }
 
 
-    tabuleiro.appendChild(cell);
-}
-    
-    </script>
+    <div class="container  align-items-center  justify-content-center ">
 
+        <div  id="container-menu"  class=" d-flex align-items-center justify-content-around flex-column ">
+            <h2 class="text-white">Modo de Jogo</h2>
+            <div class="d-flex align-items-center justify-content-center gap-3 flex-column">
+                <button id="modo-bot" class="btn btn-info  botao-modo-jogo">Contra IA🤖 </button>
+                <button id="modo-local" class="btn btn-info botao-modo-jogo d-none">Xadrez </button>
+                <button id="modo-xadrez2" class="btn btn-info botao-modo-jogo">Xadrez 2 </button>
+                
+            </div>
+            
+        </div>
 
+        <div class="d-grid tabuleiro "></div>
+        <div class="spacer"></div>
+
+        </div>
+        
     <script src="scripts/colocarPecas.js" type="module"></script>
     <script src="scripts/clique.js" type="module"></script>
     <script src="scripts/turno.js" type="module" ></script>

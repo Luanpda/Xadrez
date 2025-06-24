@@ -54,8 +54,22 @@ export function gerarFenDoTabuleiro() {
    
     fen += ` b`;
 
+
+    const q = document.getElementById('cell-0').hasAttribute('data-movimentoroque') && document.getElementById('cell-4').hasAttribute('data-movimentoroque') ? 'q' : '';
+    const k = document.getElementById('cell-4').hasAttribute('data-movimentoroque') && document.getElementById('cell-7').hasAttribute('data-movimentoroque') ? "k" : '';
+    const Q = document.getElementById('cell-56').hasAttribute('data-movimentoroque') && document.getElementById('cell-60').hasAttribute('data-movimentoroque') ? "Q" : '';
+    const K = document.getElementById('cell-60').hasAttribute('data-movimentoroque') && document.getElementById('cell-63').hasAttribute('data-movimentoroque') ? "K" : '';
+
     
-    fen += ' KQkq - 0 1';
+    let direitosDeRoque = K + Q + k + q;
+
+    
+    if (direitosDeRoque === '') {
+        direitosDeRoque = '-';
+    }
+
+   
+    fen += ` ${direitosDeRoque} - 0 1`;
 
     console.log("FEN Gerada:", fen);
     return fen;

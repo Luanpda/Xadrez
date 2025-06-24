@@ -2,6 +2,7 @@ import { limparMovimento, limparMovimentos } from "./movimento.js";
 import { alternarTurno } from "./turno.js";
 
 export function movimentoRei(id) {
+    // ... (seu código getTabuleiro, encontrar linha/coluna, etc., permanece igual) ...
     function getTabuleiro() {
         if (document.getElementById(`cell-99`)) {
             return [
@@ -29,15 +30,12 @@ export function movimentoRei(id) {
             ];
         }
     }
-
     const tabuleiro = getTabuleiro(); 
     const idCell = Number(id.split('-')[1]);
     const linha = tabuleiro.findIndex(row => row.includes(idCell)); 
     const coluna = tabuleiro[linha].indexOf(idCell); 
-
     const rei = document.getElementById(id);
-    const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
-        'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
+    const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
     const isBranco = rei.classList.contains('reiBranco');
     if (rei.dataset.turno === 'false') return;
     if (rei.dataset.posicao === 'true') {
@@ -49,6 +47,46 @@ export function movimentoRei(id) {
     rei.setAttribute('data-posicao', 'true');
     limparMovimentos();
 
+    // --- LÓGICA DO ROQUE (VERIFICAÇÃO) ---
+    // Verifica se o rei já se moveu ou está em xeque
+    if ('movimentoroque' in rei.dataset && !rei.classList.contains('cell-marcada')) {
+        const torres = isBranco ? document.querySelectorAll('.torreBranca') : document.querySelectorAll('.torre');
+
+        Array.from(torres).forEach(torreElem => {
+            // Verifica se a torre já se moveu
+            if (!('movimentoroque' in torreElem.dataset)) return;
+
+            const idTorre = Number(torreElem.id.split('-')[1]);
+            const passo = idTorre > idCell ? 1 : -1;
+            let caminhoLivre = true; // NOVO! Assumimos que o caminho está livre
+
+            // NOVO! Lógica do loop corrigida
+            for (let i = idCell + passo; i !== idTorre; i += passo) {
+                const cellPosicao = document.getElementById(`cell-${i}`);
+                // Se qualquer casa no caminho NÃO estiver vazia ou estiver marcada (em xeque), o caminho NÃO está livre
+                if (!cellPosicao.classList.contains('vazia') || cellPosicao.classList.contains('cell-marcada')) {
+                    caminhoLivre = false;
+                    break; // Interrompe a verificação, pois o roque é impossível
+                }
+            }
+
+            // Se, após o loop, o caminho continuar livre, então o roque é possível
+            if (caminhoLivre) {
+                const cellRoque = document.getElementById(`cell-${idCell + (2 * passo)}`);
+                cellRoque.classList.add('roque', 'posicao-cell');
+                cellRoque.dataset.torreId = torreElem.id; // NOVO! Guardamos o ID da torre
+                cellRoque.dataset.torreDestinoId = `cell-${idCell + passo}`; // NOVO! Guardamos onde a torre vai
+
+                const igmPosicao = document.createElement('img');
+                igmPosicao.src = "pecas/button.png";
+                igmPosicao.classList.add('posicao');
+                cellRoque.appendChild(igmPosicao);
+            }
+        });
+    }
+
+    // --- LÓGICA DO MOVIMENTO NORMAL DO REI ---
+    // ... (seu código de movimento normal para as 8 direções permanece o mesmo) ...
     const direcoes = [
         { dl: 0, dc: 1 },   // direita
         { dl: 0, dc: -1 },  // esquerda
@@ -93,10 +131,48 @@ export function movimentoRei(id) {
         }
     }
 
+    // --- EVENT LISTENER PARA EXECUTAR O MOVIMENTO ---
     document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
         const cell = evento.target.closest('.posicao-cell');
-
         if (!cell) return;
+        
+        // NOVO! Lógica de execução do roque simplificada
+        if (cell.classList.contains('roque')) {
+            const pecaClicada = document.querySelector('[data-posicao="true"]'); // O Rei
+            const torreOriginal = document.getElementById(cell.dataset.torreId);
+            const destinoTorre = document.getElementById(cell.dataset.torreDestinoId);
+
+            if (!pecaClicada || !torreOriginal || !destinoTorre) return;
+
+            // Mover o Rei
+            const imgRei = pecaClicada.querySelector('img');
+            if (imgRei) pecaClicada.removeChild(imgRei);
+            pecaClicada.classList.remove('reiBranco', 'rei');
+            pecaClicada.classList.add('vazia');
+            pecaClicada.removeAttribute('data-posicao');
+            pecaClicada.removeAttribute('data-movimentoroque');
+
+            cell.appendChild(imgRei);
+            cell.classList.remove('vazia');
+            cell.classList.add(isBranco ? 'reiBranco' : 'rei');
+
+            // Mover a Torre
+            const imgTorre = torreOriginal.querySelector('img');
+            if (imgTorre) torreOriginal.removeChild(imgTorre);
+            torreOriginal.classList.remove('torreBranca', 'torre');
+            torreOriginal.classList.add('vazia');
+            torreOriginal.removeAttribute('data-movimentoroque');
+
+            destinoTorre.appendChild(imgTorre);
+            destinoTorre.classList.remove('vazia');
+            destinoTorre.classList.add(isBranco ? 'torreBranca' : 'torre');
+
+            limparMovimentos();
+            alternarTurno();
+            return; // Encerra a função aqui
+        }
+
+        // --- Lógica de execução de movimento normal ---
         const pecaCliclada = document.querySelector('[data-posicao="true"]');
         if (!pecaCliclada) return;
 
@@ -115,6 +191,7 @@ export function movimentoRei(id) {
         pecaCliclada.classList.remove('reiBranco', 'rei');
         pecaCliclada.classList.add('vazia');
         pecaCliclada.removeAttribute('data-posicao');
+        pecaCliclada.removeAttribute('data-movimentoroque');
 
         cell.setAttribute('data-posicao', 'false');
         cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
@@ -123,5 +200,6 @@ export function movimentoRei(id) {
         cell.appendChild(imgNova);
         cell.setAttribute('data-turno', 'false');
         alternarTurno();
+
     }, { once: true });
 }
