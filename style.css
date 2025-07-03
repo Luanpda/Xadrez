@@ -8,6 +8,7 @@
 body{
     background-color: var(--cor-de-fundo);
      
+ 
    
 }
 .container {
@@ -16,13 +17,24 @@ body{
   align-items: center;
  
 }
-
+.div-container-opcoes-peca{
+  margin: 0 2rem;
+  height: 30em;
+  
+  margin: 0 2rem;
+}
 #container-menu{
   background-color: #212121;
   min-height: 15em;
   min-width: 15em;
   border-radius: 20px;
-  margin: 0 2rem;
+  
+}
+#container-opcoes-peca{
+   background-color: #212121;
+    min-height: 10em;
+    min-width: 20em;
+    border-radius: 20px;
 }
 .spacer {
    min-height: 15em;
@@ -68,6 +80,8 @@ body{
     align-items: center;
     
 }
+
+
 .branca{
     background-color: var(--cor-clara);
 }
@@ -95,4 +109,85 @@ body{
     margin-bottom: 0;
     line-height: initial;
     color: inherit;
+}
+
+.botao {
+  --color: #093FB4;
+  font-family: inherit;
+  display: inline-block;
+  width: 8em;
+  height: 2.6em;
+  line-height: 2.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid var(--color);
+  transition: color 0.5s;
+  z-index: 1;
+  font-size: 17px;
+  border-radius: 6px;
+  font-weight: 500;
+  background-color: 222831;
+}
+
+.botao:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background: var(--color);
+  height: 150px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+.botao:hover {
+  color: #fff;
+}
+
+.botao:before {
+  top: 100%;
+  left: 100%;
+  transition: all 0.7s;
+}
+
+.botao:hover:before {
+  top: -30px;
+  left: -30px;
+}
+
+.botao:active:before {
+  background: #3a0ca3;
+  transition: background 0s;
+}
+@media (max-width: 600px) {
+  body{
+     box-sizing: border-box;
+  }
+ .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .tabuleiro {
+    width: 90vw;
+    height: 90vw;
+    max-width: 98vw;
+    max-height: 98vw;
+    margin: 0 auto;
+    margin-top: 0.5em;
+    box-sizing: border-box;
+  }
+.div-container-opcoes-peca{
+  display: none !important;
+}
+#turno,#modo-jogo-atual{
+  font-size: 1rem;
+}
+  .peca {
+    max-width: 95%;
+    max-height: 95%;
+  }
 }

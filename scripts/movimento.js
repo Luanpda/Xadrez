@@ -1,4 +1,4 @@
-import { alternarTurno } from "./turno.js";
+import { alternarTurno, impedirMovimento, trocarMovimento } from "./turno.js";
 
 
 
@@ -365,7 +365,7 @@ export function movimentoPeao(id) {
         celulaFrente2.appendChild(img2);
     }
 
-    document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
+    document.querySelector('.tabuleiro').addEventListener('pointerdown', async(evento) => {
         const destino = evento.target.closest('.posicao-cell');
         if (!destino) return;
 
@@ -373,10 +373,16 @@ export function movimentoPeao(id) {
         if (!peaoInicial || !peaoInicial.classList.contains('peao')) return;
 
         limparMovimentos();
+        const isBranco = peaoInicial.classList.contains('peaoBranco');
+
+        const finalBranco = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'];
+        const finalpreto = ['a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'];
+
+        
 
         const imgAtual = peaoInicial.querySelector('img');
         const novoPeao = document.createElement('img');
-        const isBranco = peaoInicial.classList.contains('peaoBranco');
+        
 
         novoPeao.src = isBranco ? "pecas/branco/pawn-w.svg" : "pecas/preto/pawn-b.svg";
         novoPeao.classList.add('peca', 'peaoImg');
@@ -398,7 +404,94 @@ export function movimentoPeao(id) {
         destino.setAttribute('data-movimento', 'false');
         destino.setAttribute('data-turno', 'false');
         destino.appendChild(novoPeao);
-
+        
+        if(isBranco){
+            if (Array.from(destino.classList).some(classe => finalBranco.includes(classe))){
+                console.log('Peão Branco chegou ao final do tabuleiro!');
+              await escolhaPeca(destino, isBranco,peaoInicial);
+              return
+               
+            }
+        }else{
+            if (Array.from(destino.classList).some(classe => finalpreto.includes(classe))){
+                console.log('Peão Preto chegou ao final do tabuleiro!');
+               await  escolhaPeca(destino, isBranco,peaoInicial);
+               return
+                
+            }
+        }
         alternarTurno();
     }, { once: true });
+}
+
+ function escolhaPeca(destino,isBranco,peaoInicial){
+    return new Promise((resolve) => { 
+    const containerOpcoesPeca = document.getElementById('container-opcoes-peca');
+    containerOpcoesPeca.classList.remove('invisible');
+    const opcoes = containerOpcoesPeca.querySelectorAll('img');
+    const srcsPreto = ["pecas/preto/queen-b.svg","pecas/preto/rook-b.svg" ,"pecas/preto/bishop-b.svg", "pecas/preto/knight-b.svg"];
+    const srcsBranco = ["pecas/branco/queen-w.svg","pecas/branco/rook-w.svg" ,"pecas/branco/bishop-w.svg", "pecas/branco/knight-w.svg"];
+    const classesPretas = ['rainha','torre','bispo','cavalo'];
+    const classesBrancas = ['rainhaBranca','torreBranca','bispoBranco','cavaloBranco'];
+
+    const classesPecas = [
+        'peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
+        'peaoBranco', 'torreBranca', 'bispoBranca', 'cavaloBranco', 'rainhaBranca', 'reiBranca','ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','garca' ,'garcaBranco'
+    ];
+
+
+
+
+    if(isBranco){
+        opcoes.forEach(opcao => {
+            opcao.src = srcsBranco[Array.from(opcoes).indexOf(opcao)];
+            opcao.dataset.classe = classesBrancas[Array.from(opcoes).indexOf(opcao)];
+        })
+        impedirMovimento('branco');                          
+    }else{
+        opcoes.forEach(opcao => {
+            opcao.src = srcsPreto[Array.from(opcoes).indexOf(opcao)];
+            opcao.dataset.classe = classesPretas[Array.from(opcoes).indexOf(opcao)];
+        })
+        impedirMovimento('preto');
+    }
+    
+    opcoes.forEach((opcao, i) => {
+    
+    const novoOpcao = opcao.cloneNode(true);
+    novoOpcao.src = isBranco ? srcsBranco[i] : srcsPreto[i];
+    novoOpcao.dataset.classe =  isBranco? classesBrancas[i]: classesPretas[i];
+    opcao.parentNode.replaceChild(novoOpcao, opcao);
+
+    novoOpcao.addEventListener('click', () => {
+        const imgAtual = destino.querySelector('img');
+        if (imgAtual) destino.removeChild(imgAtual);
+
+        const imgDoPeao = peaoInicial.querySelector('img');
+        if (imgDoPeao) peaoInicial.removeChild(imgDoPeao);
+
+        peaoInicial.classList.remove('peao','peaoBranco');
+        peaoInicial.classList.add('vazia');
+        peaoInicial.removeAttribute('data-posicao');
+        peaoInicial.removeAttribute('data-movimento');
+        const classeDaPecaEscolhida = novoOpcao.dataset.classe;
+
+        const novoPeca = document.createElement('img');
+        novoPeca.src = novoOpcao.src;
+        novoPeca.classList.add('peca',classeDaPecaEscolhida);
+
+        destino.appendChild(novoPeca);
+        destino.classList.remove(...Array.from(destino.classList).filter(classe => classesPecas.includes(classe)));
+        destino.classList.add(classeDaPecaEscolhida);
+        destino.setAttribute('data-posicao', 'false');
+        destino.setAttribute('data-movimento', 'false');
+        destino.setAttribute('data-turno', 'false');
+
+        containerOpcoesPeca.classList.add('invisible');
+        trocarMovimento(isBranco);
+        resolve()
+    });
+});
+});
+
 }

@@ -74,7 +74,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
     turno.innerHTML = 'Turno: Brancas';
 
     const modoJogo  = document.getElementById('modo-jogo-atual');
-    modoJogo.innerHTML= 'Modo Atual: 2P Xadrez 2'
+    modoJogo.innerHTML= 'Modo Atual: Xadrez 2'
 }
 
   colocarPecasNew()
@@ -99,7 +99,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
 
 
     const modoJogo  = document.getElementById('modo-jogo-atual');
-    modoJogo.innerHTML= 'Modo Atual: 2P Xadrez Normal'
+    modoJogo.innerHTML= 'Modo Atual: Xadrez'
    }
    if(botao.id === 'modo-bot'){
 

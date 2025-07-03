@@ -1,11 +1,10 @@
 import { alternarTurno } from "./turno.js";
 
-export function movimentoIA(movimento){
+export  function movimentoIA(movimento){
 
     const pecaInicial = document.querySelector(`.${movimento.slice(0,2)}`)
     const destinoDaPeca = document.querySelector(`.${movimento.slice(2)}`)
-    console.log(pecaInicial)
-    console.log(destinoDaPeca)
+    
     const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
                       'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
 
@@ -13,7 +12,7 @@ export function movimentoIA(movimento){
     const imgAlvo = destinoDaPeca.querySelector('img');
     if(imgAlvo) destinoDaPeca.removeChild(imgAlvo)
     
-    console.log(pecaInicial.classList)
+   
 
     const classesValidas = Array.from(pecaInicial.classList).filter(classe => classesPecas.includes(classe));
     const pecaBranca = classesValidas.some(iten => iten.includes('Branc') )
@@ -54,17 +53,21 @@ export function movimentoIA(movimento){
             destinoDaPeca.classList.remove(...Array.from(destinoDaPeca.classList).filter(classe => classesPecas.includes(classe)));
             destinoDaPeca.classList.remove('vazia')
             destinoDaPeca.classList.add(classesValidas);
-
+            
             pecaInicial.classList.add('vazia')
             pecaInicial.classList.remove(classesValidas)
             alternarTurno()
 
+            newTorre.classList.remove('vazia');
+            newTorre.classList.add('torre');
             pecaInicial.removeChild(imgInicial)
             destinoDaPeca.appendChild(imgInicial)
             return;
         }
     }
-
+    if(pecaInicial.classList.contains('rei') || pecaInicial.classList.contains('reiBranco') || pecaInicial.classList.contains('torre') || pecaInicial.classList.contains('torreBranca')){
+        pecaInicial.removeAttribute('data-movimentoroque');
+    }
     destinoDaPeca.classList.remove(...Array.from(destinoDaPeca.classList).filter(classe => classesPecas.includes(classe)));
     destinoDaPeca.classList.remove('vazia')
     destinoDaPeca.classList.add(classesValidas);
