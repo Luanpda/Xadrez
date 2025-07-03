@@ -163,11 +163,14 @@ body{
   transition: background 0s;
 }
 @media (max-width: 600px) {
+  .spacer{
+    display: none;
+  }
   body{
      box-sizing: border-box;
   }
  .container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
     padding: 0;
   }
@@ -181,7 +184,17 @@ body{
     box-sizing: border-box;
   }
 .div-container-opcoes-peca{
-  display: none !important;
+ flex-direction: column-reverse;
+ height: auto;
+}
+#container-opcoes-peca{
+ min-width: auto;
+ min-height: 4em;
+}
+#container-menu{
+ min-width: 20em;
+ min-height: 4em;
+ margin-top: 1em;
 }
 #turno,#modo-jogo-atual{
   font-size: 1rem;

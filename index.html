@@ -35,7 +35,7 @@
             <div  id="container-menu"  class=" d-flex align-items-center justify-content-around flex-column  ">
                 <h2 class="text-white">Modo de Jogo</h2>
                 <div class="d-flex align-items-center justify-content-center gap-3 flex-column">
-                    <button id="modo-bot" class="btn botao   botao-modo-jogo text-white">Contra IA🤖 </button>
+                    <button id="modo-bot" class="btn botao   botao-modo-jogo text-white">IA🤖 </button>
                     <button id="modo-local" class="btn botao botao-modo-jogo d-none text-white">Xadrez </button>
                     <button id="modo-xadrez2" class="btn botao botao-modo-jogo text-white">Xadrez 2 </button>
                     
@@ -44,12 +44,36 @@
             </div>
         </div>
 
+        
+
         <div class="d-grid tabuleiro "></div>
         <div class="spacer"></div>
 
+       
+
         </div>
         <script>
-            const container = document.querySelector('.div-container-opcoes-peca');
+            const isMobile = window.innerWidth <= 600;
+            if(isMobile){
+                const container = document.getElementById('container-opcoes-peca');
+                container.classList.remove('justify-content-center');
+                const divContainer = document.querySelector('.div-container-opcoes-peca');
+               divContainer.classList.add('flex-column-reverse');
+
+               const divMenu = document.getElementById('container-menu');
+            divMenu.classList.remove('flex-column');
+            const h2DivMenu = divMenu.querySelector('h2');
+            const divDivMenu = divMenu.querySelector('div');
+            divMenu.removeChild(h2DivMenu);
+            divDivMenu.classList.remove('flex-column');
+            
+            const imagensDivMenu = container.querySelectorAll('img');
+            Array.from(imagensDivMenu).forEach(img => {
+                img.style.width = '50px'; // Ajusta o tamanho das imagens                
+            })
+
+            }
+            
            
 
         </script>
