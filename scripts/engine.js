@@ -39,7 +39,7 @@ function valor(chess) {
 
 
 export function movimentoChess() {
-    const profundidade =2; // Ou o valor que desejar
+    const profundidade =5; // Ou o valor que desejar
     const fen = gerarFenDoTabuleiro();
     const chess = new Chess(fen);
     const moves = chess.moves({ verbose: true });
