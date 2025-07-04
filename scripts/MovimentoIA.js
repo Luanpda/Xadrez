@@ -1,21 +1,58 @@
 import { alternarTurno } from "./turno.js";
 
-export  function movimentoIA(movimento){
+export  function movimentoIA(movimento,promocao){
 
     const pecaInicial = document.querySelector(`.${movimento.slice(0,2)}`)
     const destinoDaPeca = document.querySelector(`.${movimento.slice(2)}`)
-    
+    const promocaoSrcs = {
+        'Q': 'queen-w.svg',
+        'R': 'rook-w.svg',
+        'B': 'bishop-w.svg',
+        'N': 'knight-w.svg',
+        'q': 'queen-b.svg',
+        'r': 'rook-b.svg',
+        'b': 'bishop-b.svg',
+        'n': 'knight-b.svg'
+    }
+    const promocaoClasses = {
+        'Q': 'rainhaBrnaca',
+        'R': 'torreBranca',
+        'B': 'bispoBranco',
+        'N': 'cavaloBranco',
+        'q': 'rainha',
+        'r': 'torre',
+        'b': 'bispo',
+        'n': 'cavalo'
+    }    
     const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
                       'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco'];
-
+    
     const imgInicial = pecaInicial.querySelector('img');
     const imgAlvo = destinoDaPeca.querySelector('img');
     if(imgAlvo) destinoDaPeca.removeChild(imgAlvo)
-    
-   
-
     const classesValidas = Array.from(pecaInicial.classList).filter(classe => classesPecas.includes(classe));
     const pecaBranca = classesValidas.some(iten => iten.includes('Branc') )
+
+    if(promocao){
+        const pecaPromovida = document.createElement('img');
+        pecaPromovida.src = pecaBranca ? `pecas/branco/${promocaoSrcs[promocao]}` : `pecas/preto/${promocaoSrcs[promocao]}`;
+        pecaPromovida.classList.add(promocaoClasses[promocao]);
+        pecaPromovida.classList.add('peca');
+        destinoDaPeca.appendChild(pecaPromovida);
+        destinoDaPeca.classList.remove('vazia');
+        destinoDaPeca.classList.remove(...Array.from(destinoDaPeca.classList).filter(classe => classesPecas.includes(classe)));
+        console.log(promocaoClasses[promocao])
+        destinoDaPeca.classList.add(promocaoClasses[promocao]);
+        pecaInicial.classList.add('vazia');
+        pecaInicial.classList.remove(...classesPecas);
+        alternarTurno();
+        pecaInicial.removeChild(imgInicial);
+        return;
+
+    }
+   
+
+    
     if(pecaBranca){
 
     }else{

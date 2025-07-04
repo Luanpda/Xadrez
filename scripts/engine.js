@@ -158,7 +158,7 @@ export function movimentoChess() {
 
     if (melhorJogada) {
          
-         movimentoIA(melhorJogada.lan);
+         movimentoIA(melhorJogada.from + melhorJogada.to, melhorJogada.promotion);
     }
 }
 
@@ -283,5 +283,6 @@ function ordemMovimentos(moves){
    
     return moves;
 }
+
 
 
