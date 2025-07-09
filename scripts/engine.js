@@ -3,6 +3,26 @@ import { movimentoIA } from './MovimentoIA.js';
 import { gerarFenDoTabuleiro } from './gerarFen.js';
 import { pst } from './tables.js';
 
+   const bonusPeaoBrancoLivre = [
+    0,   
+    120, 
+    80,  
+    50,  
+    30, 
+    15,  
+    0,   
+    0    
+];
+const bonusPeaoPretoLivre = [
+    0,   
+    -120, 
+    -80,  
+    -50,  
+    -30, 
+    -15,  
+    0,   
+    0    
+]
 
 
 function valor(chess) {
@@ -12,7 +32,9 @@ function valor(chess) {
 
     const whitePawnFiles = [0, 0, 0, 0, 0, 0, 0, 0];
     const blackPawnFiles = [0, 0, 0, 0, 0, 0, 0, 0];
-
+    let bisposBrancos = 0;
+    let bisposPretos = 0;
+    let valorPST;
      const isEndgame = board.flat().filter(p => p && p.type === 'q').length === 0;
 
     for (let i = 0; i < 8; i++) {
@@ -22,31 +44,48 @@ function valor(chess) {
                
                 if (peca && peca.type === 'p') {
                 if (peca.color === 'w') {
+                    const peaoLivre = pawnBrancoLivre(board,j,i); 
+                    if(peaoLivre){
+                        totalScore += bonusPeaoBrancoLivre[i]; 
+                    }
                     whitePawnFiles[j]++;
                     if(i>0){
-                        const pecaFrente = board[i-1][j];
+                        
                         const pecaDiagonalEsquerda = board[i-1][j-1];
                         const pecaDiagonalDireita = board[i-1][j+1];
 
+                        // Verifica se a peça diagonal direita é um peão branco
                         if(pecaDiagonalDireita &&  pecaDiagonalDireita.color === 'w' && pecaDiagonalDireita.type === 'p') {
                             totalScore += 15; 
                             }
+                        // Verifica se a peça diagonal direita é uma peça preta
                          if(pecaDiagonalDireita &&  pecaDiagonalDireita.color === 'b') {
                             totalScore += valorPecas[pecaDiagonalDireita.type] / 10; 
                             }
 
+                        // Verifica se a peça diagonal esquerda é um peão preto
                         if(pecaDiagonalEsquerda &&  pecaDiagonalEsquerda.color === 'w' && pecaDiagonalEsquerda.type === 'p') {
                             totalScore += 15; 
                             }
+                        // Verifica se a peça diagonal esquerda é uma peça preta
                         if(pecaDiagonalEsquerda &&  pecaDiagonalEsquerda.color === 'b' ) {
                             totalScore += valorPecas[pecaDiagonalEsquerda.type] / 10; 
                             }
+                        
+                        
+
+
+
                     }
                     
                 } else {
                     blackPawnFiles[j]++;
+                    const peaoLivre = pawnPretoLivre(board,j,i); 
+                    if(peaoLivre){
+                        totalScore += bonusPeaoPretoLivre[7-i]; 
+                    }
                     if(i<7){
-                        const pecaFrente = board[i-1][j];
+                        
                         const pecaDiagonalEsquerda = board[i+1][j-1];
                         const pecaDiagonalDireita = board[i+1][j+1];
 
@@ -67,13 +106,18 @@ function valor(chess) {
                     }
                 }
             }
-           
-
+            if(peca.type === 'b' && peca.color === 'w'){
+                bisposBrancos++;
+            }
+            if(peca.type === 'b' && peca.color === 'b'){
+                bisposPretos++;
+            }
+            
 
 
                 const materialValue = valorPecas[peca.type];
                
-                let valorPST;
+                
                 const tipoUpper = peca.type.toUpperCase();
                 const indicePST = i * 8 + j;
 
@@ -81,6 +125,12 @@ function valor(chess) {
                 if (tipoUpper === 'K') {
                    
                     const gamePhase = isEndgame ? 'eg' : 'mg';
+                    if(gamePhase === 'mg' && peca.color === 'w'){
+                        totalScore += protegerReiBranco(board,j,i);
+                    }
+                if(gamePhase === 'mg' && peca.color === 'b'){
+                        totalScore += protegerReiPreto(board,j,i);
+                    }
                     valorPST = pst[peca.color][tipoUpper][gamePhase][indicePST];
                 } else {
                     valorPST = pst[peca.color][tipoUpper][indicePST];
@@ -91,6 +141,16 @@ function valor(chess) {
             }
         }
     }
+    
+
+    if(bisposBrancos=== 2){
+                totalScore += 60; 
+            }
+
+    if(bisposPretos=== 2){
+                totalScore -= 60;
+            }
+
      for( const cont of whitePawnFiles){
         if(cont > 1){
             totalScore -= (cont - 1) * 25;
@@ -107,7 +167,7 @@ function valor(chess) {
 
 
 export function movimentoChess() {
-    const profundidade =5; 
+    const profundidade =6; 
     const fen = gerarFenDoTabuleiro();
     const chess = new Chess(fen);
     const moves = ordemMovimentos(chess.moves({ verbose: true }));
@@ -284,5 +344,79 @@ function ordemMovimentos(moves){
     return moves;
 }
 
+function pawnBrancoLivre(board,coluna,linha){
+ 
+    for(let i = linha - 1; i >= 0; i--) {
+       for(let j = coluna - 1; j <= coluna + 1; j++) {
+        if (j >= 0 && j < 8) {
+            const piece = board[i][j];
+            if (piece && piece.type === 'p' && piece.color === 'b') {
+                    return false; 
+                }
+                
+        }
 
 
+       }
+    }
+    return true;
+}
+
+function pawnPretoLivre(board,coluna,linha){
+ 
+    for(let i = linha + 1; i <= 7; i++) {
+       for(let j = coluna - 1; j <= coluna + 1; j++) {
+        if (j >= 0 && j < 8) {
+            const piece = board[i][j];
+            if (piece && piece.type === 'p' && piece.color === 'w') {
+                    return false; 
+                }
+                
+        }
+
+
+       }
+    }
+    return true;
+}
+
+function protegerReiBranco(board,coluna,linha){
+       const direcoesBranco = [
+        { dl: -1, dc: 0 },  // cima
+        { dl: -1, dc: 1 },  // superior direita
+        { dl: -1, dc: -1 }  // superior esquerda
+    ];
+    let scoreDePeoes = 0
+    for (const { dl, dc } of direcoesBranco) {
+        let i = linha + dl;
+        let j = coluna + dc;
+
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) continue;
+        const piece = board[i][j];
+        if(piece && piece.color === 'w' && piece.type === 'p'){
+             scoreDePeoes += 10;
+        }
+    }
+    return scoreDePeoes;
+
+}
+function protegerReiPreto(board,coluna,linha){
+       const direcoesBranco = [
+        { dl: 1, dc: 0 },  // cima
+        { dl: 1, dc: 1 },  // superior direita
+        { dl: 1, dc: -1 }  // superior esquerda
+    ];
+    let scoreDePeoes = 0
+    for (const { dl, dc } of direcoesBranco) {
+        let i = linha + dl;
+        let j = coluna + dc;
+
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) continue;
+        const piece = board[i][j];
+        if(piece && piece.color === 'b' && piece.type === 'p'){
+             scoreDePeoes -= 10;
+        }
+    }
+    return scoreDePeoes;
+
+}

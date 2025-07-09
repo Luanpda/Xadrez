@@ -47,35 +47,34 @@ export function movimentoRei(id) {
     rei.setAttribute('data-posicao', 'true');
     limparMovimentos();
 
-    // --- LÓGICA DO ROQUE (VERIFICAÇÃO) ---
-    // Verifica se o rei já se moveu ou está em xeque
+  
     if ('movimentoroque' in rei.dataset && !rei.classList.contains('cell-marcada')) {
         const torres = isBranco ? document.querySelectorAll('.torreBranca') : document.querySelectorAll('.torre');
 
         Array.from(torres).forEach(torreElem => {
-            // Verifica se a torre já se moveu
+       
             if (!('movimentoroque' in torreElem.dataset)) return;
 
             const idTorre = Number(torreElem.id.split('-')[1]);
             const passo = idTorre > idCell ? 1 : -1;
-            let caminhoLivre = true; // NOVO! Assumimos que o caminho está livre
+            let caminhoLivre = true; 
 
-            // NOVO! Lógica do loop corrigida
+          a
             for (let i = idCell + passo; i !== idTorre; i += passo) {
                 const cellPosicao = document.getElementById(`cell-${i}`);
-                // Se qualquer casa no caminho NÃO estiver vazia ou estiver marcada (em xeque), o caminho NÃO está livre
+               
                 if (!cellPosicao.classList.contains('vazia') || cellPosicao.classList.contains('cell-marcada')) {
                     caminhoLivre = false;
-                    break; // Interrompe a verificação, pois o roque é impossível
+                    break; 
                 }
             }
 
-            // Se, após o loop, o caminho continuar livre, então o roque é possível
+            
             if (caminhoLivre) {
                 const cellRoque = document.getElementById(`cell-${idCell + (2 * passo)}`);
                 cellRoque.classList.add('roque', 'posicao-cell');
-                cellRoque.dataset.torreId = torreElem.id; // NOVO! Guardamos o ID da torre
-                cellRoque.dataset.torreDestinoId = `cell-${idCell + passo}`; // NOVO! Guardamos onde a torre vai
+                cellRoque.dataset.torreId = torreElem.id; 
+                cellRoque.dataset.torreDestinoId = `cell-${idCell + passo}`; 
 
                 const igmPosicao = document.createElement('img');
                 igmPosicao.src = "pecas/button.png";
@@ -85,8 +84,7 @@ export function movimentoRei(id) {
         });
     }
 
-    // --- LÓGICA DO MOVIMENTO NORMAL DO REI ---
-    // ... (seu código de movimento normal para as 8 direções permanece o mesmo) ...
+  
     const direcoes = [
         { dl: 0, dc: 1 },   // direita
         { dl: 0, dc: -1 },  // esquerda
