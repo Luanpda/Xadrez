@@ -2,7 +2,7 @@ import { limparMovimento, limparMovimentos } from "./movimento.js";
 import { alternarTurno } from "./turno.js";
 
 export function movimentoRei(id) {
-    // ... (seu código getTabuleiro, encontrar linha/coluna, etc., permanece igual) ...
+    
     function getTabuleiro() {
         if (document.getElementById(`cell-99`)) {
             return [
@@ -59,7 +59,7 @@ export function movimentoRei(id) {
             const passo = idTorre > idCell ? 1 : -1;
             let caminhoLivre = true; 
 
-          a
+          
             for (let i = idCell + passo; i !== idTorre; i += passo) {
                 const cellPosicao = document.getElementById(`cell-${i}`);
                

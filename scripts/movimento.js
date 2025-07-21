@@ -1,5 +1,5 @@
 import { alternarTurno, impedirMovimento, trocarMovimento } from "./turno.js";
-
+import { setJogada, getJogada } from "./opennings.js";
 
 
 const tabuleiroPeao = [
@@ -26,7 +26,8 @@ export const tabuleiro = [
   [48, 49, 50, 51, 52, 53, 54, 55], 
   [56, 57, 58, 59, 60, 61, 62, 63]  
 ];
-
+export const allClass = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei', 
+                      'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco','vazia','marcada','cell','branca'];
 
 
 export function limparMovimentos() {
@@ -377,7 +378,16 @@ export function movimentoPeao(id) {
 
         const finalBranco = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'];
         const finalpreto = ['a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'];
-
+        const jogada = getJogada();
+        if(jogada.length === 0){
+        const posicaoDaPecaInicial = Array.from(peaoInicial.classList)
+    .filter(classe => !allClass.includes(classe));
+       const  posicaoFinaldaPeca = Array.from(destino.classList)
+    .filter(classe => !allClass.includes(classe));
+        setJogada(posicaoDaPecaInicial[0], posicaoFinaldaPeca[0]);
+       
+        }
+      
         
 
         const imgAtual = peaoInicial.querySelector('img');
@@ -420,6 +430,7 @@ export function movimentoPeao(id) {
                 
             }
         }
+        
         alternarTurno();
     }, { once: true });
 }

@@ -1,6 +1,8 @@
 
 import { limparMovimento, limparMovimentos, tabuleiro } from "./movimento.js";
 import { alternarTurno } from "./turno.js";
+import { allClass } from "./movimento.js";
+import { setJogada,getJogada } from "./opennings.js";
 export function movimentoCavalo(id) {
     const idCell = Number(id.split('-')[1]);
     const linha = Math.floor(idCell / 8);
@@ -75,6 +77,18 @@ export function movimentoCavalo(id) {
 
     const imgInicial = pecaCliclada.querySelector('img');
     if (imgInicial) pecaCliclada.removeChild(imgInicial);
+    const  jogada = getJogada();
+    if(jogada.length === 0){
+        const posicaoDaPecaInicial = Array.from(pecaCliclada.classList)
+        .filter(classe => !allClass.includes(classe));
+        const  posicaoFinaldaPeca = Array.from(cell.classList)
+        .filter(classe => !allClass.includes(classe));
+        setJogada(posicaoDaPecaInicial[0], posicaoFinaldaPeca[0]);
+    }
+    
+   
+        
+
 
     const imgNova = document.createElement('img');
     imgNova.src = `${isBranco ? 'pecas/branco/knight-w.svg' : 'pecas/preto/knight-b.svg'}`;
