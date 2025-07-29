@@ -153,12 +153,14 @@ let aberturaEscolhida = null;
 
 
 export function movimentoChess() {
+    const fen = gerarFenDoTabuleiro();
+    const chess = new Chess(fen);
     if(aberturaEscolhida === null){
         aberturaEscolhida= getAbertura();
         console.log(aberturaEscolhida);
        
     }
-    if(aberturaEscolhida.length > 0){
+    if(aberturaEscolhida.length > 0 && !chess.isCheck()){
         movimentoIA(aberturaEscolhida[0],'');
         let jogada = aberturaEscolhida.shift();
         return;
@@ -170,8 +172,7 @@ export function movimentoChess() {
 
 
     const profundidade =6; 
-    const fen = gerarFenDoTabuleiro();
-    const chess = new Chess(fen);
+    
     const moves = ordemMovimentos(chess.moves({ verbose: true }),chess);
     
     let melhorJogada = null;
