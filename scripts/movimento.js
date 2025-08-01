@@ -375,9 +375,12 @@ export function movimentoPeao(id) {
 
         limparMovimentos();
         const isBranco = peaoInicial.classList.contains('peaoBranco');
+        
+      
 
         const finalBranco = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'];
         const finalpreto = ['a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'];
+       
         const jogada = getJogada();
         if(jogada.length === 0){
         const posicaoDaPecaInicial = Array.from(peaoInicial.classList)

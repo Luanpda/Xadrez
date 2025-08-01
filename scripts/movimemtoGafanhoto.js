@@ -6,7 +6,10 @@ export function movimentoGafanhoto(id){
         const linha = Math.floor(idCell / 10);
         const coluna = idCell % 10;
         const gafanhoto = document.getElementById(id);
-        const classesPecas = ['ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','peao','peaoBranco','garca','garcaBranco'];
+       const classesPecas = [
+        'peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
+        'peaoBranco', 'torreBranca', 'bispoBranca', 'cavaloBranco', 'rainhaBranca', 'reiBranca','ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','garca' ,'garcaBranco'
+    ];
         const tabuleiro = [
     [  0,  1,  2,  3,  4,  5,  6,  7,  8,  9 ],
     [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ],
@@ -32,74 +35,79 @@ export function movimentoGafanhoto(id){
     
              
 
-           const direcoesHorizontal = [
-            {dl:0, dc:1}, //direita
-            {dl:0,dc:-1}, //esquerda
-            {dl:1,dc: 0}, //cima
-            {dl:-1,dc:0} // baixo
+          const direcoes = [
+        { dl: 0, dc: 1 },   // direita
+        { dl: 0, dc: -1 },  // esquerda
+        { dl: 1, dc: 0 },   // baixo
+        { dl: -1, dc: 0 },  // cima
+        { dl: 1, dc: 1 },   // inferior direita
+        { dl: 1, dc: -1 },  // inferior esquerda
+        { dl: -1, dc: 1 },  // superior direita
+        { dl: -1, dc: -1 }  // superior esquerda
+    ];
 
-           ];
-           for( const { dl,dc} of direcoesHorizontal){
+           for( const { dl,dc} of direcoes){
             let i = linha + dl;
             let j = coluna + dc;
 
             while(i >= 0 && i < 10 && j >= 0 && j < 10){
                 const cellId = `cell-${tabuleiro[i][j]}`;
+                let cellDaFrente;
+                if (i + dl >= 0 && i + dl < 10 && j + dc >= 0 && j + dc < 10) {
+                    cellDaFrente = document.getElementById(`cell-${tabuleiro[i+dl][j+dc]}`);
+                }
+
                 
                 const cellPosicao= document.getElementById(cellId);
+                if(cellPosicao.classList.contains('vazia')){
+                    
+                         
+                        
+
+
+                }else{
+                    if(isBranco){
+                            
+                            if(!Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'))){
+                                if(cellDaFrente &&  cellDaFrente.classList.contains('vazia')){
+                                    console.log('entrou no else')
+                                    console.log(cellDaFrente);
+                                    cellPosicao.classList.add('cell-marcada');
+                                    const imgFrente = document.createElement('img');
+                                    imgFrente.src = "pecas/button.png";
+                                    imgFrente.classList.add('posicao');
+                                    cellDaFrente.classList.add('posicao-cell');
+                                    cellDaFrente.appendChild(imgFrente);
+                                }
+
+
+                            }
+
+
+
+
+                        }else{
+                             if(Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'))){
+                                if(cellDaFrente &&  cellDaFrente.classList.contains('vazia')){
+                                    
+                                    cellPosicao.classList.add('cell-marcada');
+                                    const imgFrente = document.createElement('img');
+                                    imgFrente.src = "pecas/button.png";
+                                    imgFrente.classList.add('posicao');
+                                    cellDaFrente.classList.add('posicao-cell');
+                                    cellDaFrente.appendChild(imgFrente);
+                                }
+
+
+                            }
+
+                        }
+                    break;
+                }
                 
                
                 
-                try{
-                    const cellPosicaoBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
-                    if(isBranco){
-                        
-                        if(!cellPosicaoBranca){
-                             if('posicao' in cellPosicao.dataset){
-                            const cellIdFrente = `cell-${tabuleiro[i+dl][j+dc]}`;
-                            const cellPosicaoFrente = document.getElementById(cellIdFrente);
-                            if(cellPosicaoFrente.classList.contains('vazia')){
-                                
-
-                                const igmPosicao = document.createElement('img');
-                                igmPosicao.src= "pecas/button.png";
-                                igmPosicao.classList.add('posicao');
-                                cellPosicao.classList.add('cell-marcada');
-                                cellPosicaoFrente.classList.add('posicao-cell');
-                                cellPosicaoFrente.appendChild(igmPosicao);
-                                break;
-                            }
-
-                     }
-                        }else{
-                            break;
-                        }
-                    }else{
-                        if(cellPosicaoBranca){
-                             if('posicao' in cellPosicao.dataset){
-                            const cellIdFrente = `cell-${tabuleiro[i+dl][j+dc]}`;
-                            const cellPosicaoFrente = document.getElementById(cellIdFrente);
-                            if(cellPosicaoFrente.classList.contains('vazia')){
-                                
-
-                                const igmPosicao = document.createElement('img');
-                                igmPosicao.src= "pecas/button.png";
-                                igmPosicao.classList.add('posicao');
-                                cellPosicao.classList.add('cell-marcada');
-                                cellPosicaoFrente.classList.add('posicao-cell');
-                                cellPosicaoFrente.appendChild(igmPosicao);
-                                break;
-                            }
-
-                     }
-                        }else{
-                            break;
-                        }
-                        
-                    }        
-                    }catch{
-                    
-                }
+             
                 i += dl;
                 j += dc;
 
@@ -108,80 +116,6 @@ export function movimentoGafanhoto(id){
            }
 
 
-
-
-          const direcoes = [
-            { dl: 1, dc: 1 },   // inferior direita
-            { dl: 1, dc: -1 },  // inferior esquerda
-            { dl: -1, dc: 1 },  // superior direita
-            { dl: -1, dc: -1 }  // superior esquerda
-        ];
-    
-    
-        for (const {dl,dc} of direcoes){
-    
-             let i = linha + dl;
-             let j = coluna + dc;
-             while(i >= 0 && i < 10 && j >= 0 && j < 10){
-                const cellId = `cell-${tabuleiro[i][j]}`;
-                const cellPosicao= document.getElementById(cellId);          
-                 try{
-                    const cellPosicaoBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
-                    if(isBranco){
-                        
-                        if(!cellPosicaoBranca){
-                             if('posicao' in cellPosicao.dataset){
-                            const cellIdFrente = `cell-${tabuleiro[i+dl][j+dc]}`;
-                            const cellPosicaoFrente = document.getElementById(cellIdFrente);
-                            if(cellPosicaoFrente.classList.contains('vazia')){
-                                
-
-                                const igmPosicao = document.createElement('img');
-                                igmPosicao.src= "pecas/button.png";
-                                igmPosicao.classList.add('posicao');
-                                cellPosicao.classList.add('cell-marcada');
-                                cellPosicaoFrente.classList.add('posicao-cell');
-                                cellPosicaoFrente.appendChild(igmPosicao);
-                                break;
-                            }
-
-                     }
-                        }else{
-                            break;
-                        }
-                    }else{
-                        if(cellPosicaoBranca){
-                             if('posicao' in cellPosicao.dataset){
-                            const cellIdFrente = `cell-${tabuleiro[i+dl][j+dc]}`;
-                            const cellPosicaoFrente = document.getElementById(cellIdFrente);
-                            if(cellPosicaoFrente.classList.contains('vazia')){
-                                
-
-                                const igmPosicao = document.createElement('img');
-                                igmPosicao.src= "pecas/button.png";
-                                igmPosicao.classList.add('posicao');
-                                cellPosicao.classList.add('cell-marcada');
-                                cellPosicaoFrente.classList.add('posicao-cell');
-                                cellPosicaoFrente.appendChild(igmPosicao);
-                                break;
-                            }
-
-                     }
-                        }else{
-                            break;
-                        }
-                        
-                        
-                    }        
-                    }catch{
-                    
-                }
-                i += dl;
-                j += dc;
-                
-             }
-    
-        }
         document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
                             const cell = evento.target.closest('.posicao-cell');
                             

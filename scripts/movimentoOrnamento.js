@@ -31,78 +31,120 @@ export function movimentoOrnamento(id){
               limparMovimento();
               ornamento.setAttribute('data-posicao', 'true');
               limparMovimentos();
+            
 
-        const direcoesHorizontal = [
-                    {dl:0, dc:1}, //direita
-                    {dl:0,dc:-1}, //esquerda
-                    {dl:1,dc: 0}, //cima
-                    {dl:-1,dc:0} // baixo
-           ];
-        const movimentos = [
-            [0,1],
-            [0,-1],
-            [1,0],
-            [-1,0]
-        ];
 
-        
-function movimentoHorizontal(dl,dc){
-    
+
+
+              
+          const direcoes = [
+        { dl: 0, dc: 1 },   // direita
+        { dl: 0, dc: -1 },  // esquerda
+        { dl: 1, dc: 0 },   // baixo
+        { dl: -1, dc: 0 },  // cima
+
+    ];
+    let pecaMarcadaDireita = 0;
+    let pecaMarcadaEsquerda= 0;
+    let pecaMarcadaCima = 0;
+    let pecaMarcadaBaixo= 0;
+
+           for( const { dl,dc} of direcoes){
             let i = linha + dl;
             let j = coluna + dc;
 
             while(i >= 0 && i < 10 && j >= 0 && j < 10){
                 const cellId = `cell-${tabuleiro[i][j]}`;
-                const cellPosicao= document.getElementById(cellId);
+                let cellDaFrente;
+                if (i + dl >= 0 && i + dl < 10 && j + dc >= 0 && j + dc < 10) {
+                    cellDaFrente = document.getElementById(`cell-${tabuleiro[i+dl][j+dc]}`);
+                }
+
                 
-                try{
-                    if(cellPosicao.classList.contains('vazia')){
-                        cellPosicao.classList.add('posicao-cell');
-                        const igmPosicao = document.createElement('img');
-                        igmPosicao.src= "pecas/button.png";
-                        igmPosicao.classList.add('posicao');
-                        cellPosicao.appendChild(igmPosicao);
+                const cellPosicao= document.getElementById(cellId);
+                if(cellPosicao.classList.contains('vazia')){
+                   
+                    const imgFrente = document.createElement('img');
+                    imgFrente.src = "pecas/button.png";
+                    imgFrente.classList.add('posicao');
+                    cellPosicao.classList.add('posicao-cell');
+                    
+                    cellPosicao.appendChild(imgFrente);
+                         
+                        
+
+
                 }else{
-                    
-                    const  cellMarcada = document.querySelectorAll('.cell-marcada');
-                    console.log(cellMarcada);
-                    if(cellMarcada.length === 0){                   
-                    const cellBranca = Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'));
-                     if (isBranco) {
-                        if(!cellBranca){
-                           cellPosicao.classList.add('cell-marcada','posicao-cell');
-                       
-
+                    if(isBranco){
+                        if(Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'))){
+                            break; 
                         }else{
-                            break;
+                            if(cellDaFrente && cellDaFrente.classList.contains('vazia')){
+                                if(pecaMarcadaDireita === 0 && dl === 0 && dc === 1){
+                                    cellPosicao.classList.add('cell-marcada');
+                                    pecaMarcadaDireita++;
+                                }
+                                if(pecaMarcadaEsquerda === 0 && dl === 0 && dc === -1){
+                                    cellPosicao.classList.add('cell-marcada');
+                                    cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaEsquerda++;
+                                }
+                                if(pecaMarcadaCima === 0 && dl === -1 && dc === 0){
+                                    cellPosicao.classList.add('cell-marcada');
+                                     cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaCima++;
+                                }
+                                if(pecaMarcadaBaixo === 0 && dl === 1 && dc === 0){
+                                    cellPosicao.classList.add('cell-marcada');
+                                     cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaBaixo++;
+                                }
+                                
+                            }
                         }
-                    }
-                    else{
-                        if(cellBranca){
-                        cellPosicao.classList.add('cell-marcada','posicao-cell');
-                        }else{
-                            break;
+                }
+                else{
+                    if(Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'))){
+                        if(cellDaFrente && cellDaFrente.classList.contains('vazia')){
+                                  if(pecaMarcadaDireita === 0 && dl === 0 && dc === 1){
+                                    cellPosicao.classList.add('cell-marcada');
+                                     cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaDireita++;
+                                }
+                                if(pecaMarcadaEsquerda === 0 && dl === 0 && dc === -1){
+                                    cellPosicao.classList.add('cell-marcada');
+                                    cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaEsquerda++;
+                                }
+                                if(pecaMarcadaCima === 0 && dl === -1 && dc === 0){
+                                    cellPosicao.classList.add('cell-marcada');
+                                    cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaCima++;
+                                }
+                                if(pecaMarcadaBaixo === 0 && dl === 1 && dc === 0){
+                                    cellPosicao.classList.add('cell-marcada');
+                                    cellPosicao.classList.add('posicao-cell');
+                                    pecaMarcadaBaixo++;
+                                }
                         }
+                    }else{
+                    break
                     }
-                    
                     
                 }
-            }
-                }catch{
-                    return;
                 }
-
+                
+                
+               
+                
+             
                 i += dl;
                 j += dc;
 
             }
             
-           
-}
-for(const [dl,dc] of movimentos){
-    movimentoHorizontal(dl,dc)
-}
-           
+           }
+
 
             document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
                             const cell = evento.target.closest('.posicao-cell');

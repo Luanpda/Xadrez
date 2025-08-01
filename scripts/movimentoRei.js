@@ -132,12 +132,12 @@ export function movimentoRei(id) {
         }
     }
 
-    // --- EVENT LISTENER PARA EXECUTAR O MOVIMENTO ---
+    
     document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
         const cell = evento.target.closest('.posicao-cell');
         if (!cell) return;
         
-        // NOVO! Lógica de execução do roque simplificada
+     
         if (cell.classList.contains('roque')) {
             const pecaClicada = document.querySelector('[data-posicao="true"]'); // O Rei
             const torreOriginal = document.getElementById(cell.dataset.torreId);
@@ -145,7 +145,7 @@ export function movimentoRei(id) {
 
             if (!pecaClicada || !torreOriginal || !destinoTorre) return;
 
-            // Mover o Rei
+           
             const imgRei = pecaClicada.querySelector('img');
             if (imgRei) pecaClicada.removeChild(imgRei);
             pecaClicada.classList.remove('reiBranco', 'rei');
@@ -157,7 +157,7 @@ export function movimentoRei(id) {
             cell.classList.remove('vazia');
             cell.classList.add(isBranco ? 'reiBranco' : 'rei');
 
-            // Mover a Torre
+           
             const imgTorre = torreOriginal.querySelector('img');
             if (imgTorre) torreOriginal.removeChild(imgTorre);
             torreOriginal.classList.remove('torreBranca', 'torre');
@@ -170,10 +170,10 @@ export function movimentoRei(id) {
 
             limparMovimentos();
             alternarTurno();
-            return; // Encerra a função aqui
+            return; 
         }
 
-        // --- Lógica de execução de movimento normal ---
+      
         const pecaCliclada = document.querySelector('[data-posicao="true"]');
         if (!pecaCliclada) return;
 
