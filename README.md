@@ -1,13 +1,28 @@
-Este projeto é um jogo de xadrez interativo feito em JavaScript, HTML e CSS, com suporte a modos de jogo clássicos e variantes personalizadas, incluindo um modo "Xadrez 2" com tabuleiro 10x10 e peças especiais.
+♟️ Projeto: Jogo de Xadrez 
+Um jogo de xadrez moderno e personalizável desenvolvido com JavaScript, HTML e CSS. Conta com suporte a modos clássicos e variantes originais, incluindo outro modo de jogo  com um tabuleiro 10x10 e peças especiais!
 
-Funcionalidades
-Tabuleiro interativo: Clique nas peças e casas para movimentar, com destaques visuais para movimentos válidos.
-Múltiplos modos de jogo:
-Xadrez clássico (8x8)
-Xadrez 2 (10x10) com novas peças e regras
-Contra IA (bot)
-Modo local (2 jogadores)
-IA de xadrez: Oponente artificial com lógica de avaliação e aberturas.
-Sistema de aberturas: O bot segue aberturas conhecidas nas primeiras jogadas.
-Peças customizadas: Suporte para peças e movimentos especiais (ex: Gafanhoto, Ornamento).
-Interface dinâmica: Mudança de modo de jogo e reinicialização do tabuleiro sem recarregar a página.
+🧩 Modos de Jogo Disponíveis
+♟️ Xadrez Clássico (8x8)
+🧬 Xadrez 2 (10x10) com regras e peças diferentes
+🤖 Contra IA (bot inteligente)
+👥 Modo Local (2 jogadores no mesmo dispositivo)
+
+🧠 Inteligência Artificial
+Lógica de avaliação usando o algoritimo minimax.
+Sistema de aberturas: o bot segue jogadas conhecidas no início da partida.
+
+🧙‍♂️ Peças Customizadas
+Suporte para peças e movimentos especiais:
+Gafanhoto,Camelo , e o utras peças únicas do modo Xadrez 2.
+
+🔄 Interface Dinâmica
+Troca de modo de jogo sem recarregar a página.
+Reinicialização rápida do tabuleiro com um clique.
+
+🛠️ Tecnologias Utilizadas
+JavaScript (ES6+)
+HTML5
+CSS3
+HTML5
+
+CSS3
