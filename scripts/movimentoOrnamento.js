@@ -79,7 +79,7 @@ export function movimentoOrnamento(id){
                         if(Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'))){
                             break; 
                         }else{
-                            if(cellDaFrente && cellDaFrente.classList.contains('vazia')){
+                            
                                 if(pecaMarcadaDireita === 0 && dl === 0 && dc === 1){
                                     cellPosicao.classList.add('cell-marcada');
                                     pecaMarcadaDireita++;
@@ -100,12 +100,12 @@ export function movimentoOrnamento(id){
                                     pecaMarcadaBaixo++;
                                 }
                                 
-                            }
+                            
                         }
                 }
                 else{
                     if(Array.from(cellPosicao.classList).some(classe => classe.includes('Branc'))){
-                        if(cellDaFrente && cellDaFrente.classList.contains('vazia')){
+                        
                                   if(pecaMarcadaDireita === 0 && dl === 0 && dc === 1){
                                     cellPosicao.classList.add('cell-marcada');
                                      cellPosicao.classList.add('posicao-cell');
@@ -125,7 +125,7 @@ export function movimentoOrnamento(id){
                                     cellPosicao.classList.add('cell-marcada');
                                     cellPosicao.classList.add('posicao-cell');
                                     pecaMarcadaBaixo++;
-                                }
+                                
                         }
                     }else{
                     break
