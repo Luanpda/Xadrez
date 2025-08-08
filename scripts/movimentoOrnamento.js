@@ -82,6 +82,7 @@ export function movimentoOrnamento(id){
                             
                                 if(pecaMarcadaDireita === 0 && dl === 0 && dc === 1){
                                     cellPosicao.classList.add('cell-marcada');
+                                    cellPosicao.classList.add('posicao-cell');
                                     pecaMarcadaDireita++;
                                 }
                                 if(pecaMarcadaEsquerda === 0 && dl === 0 && dc === -1){

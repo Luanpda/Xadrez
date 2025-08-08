@@ -1,6 +1,6 @@
 import { limparMovimento, limparMovimentos } from "./movimento.js";
 import { alternarTurno } from "./turno.js";
-
+import {classesPecas } from "./tables.js";
 export function movimentoRei(id) {
     
     function getTabuleiro() {
@@ -35,10 +35,7 @@ export function movimentoRei(id) {
     const linha = tabuleiro.findIndex(row => row.includes(idCell)); 
     const coluna = tabuleiro[linha].indexOf(idCell); 
     const rei = document.getElementById(id);
-   const classesPecas = [
-        'peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
-        'peaoBranco', 'torreBranca', 'bispoBranca', 'cavaloBranco', 'rainhaBranca', 'reiBranca','ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','garca' ,'garcaBranco'
-    ];
+   
     const isBranco = rei.classList.contains('reiBranco');
     if (rei.dataset.turno === 'false') return;
     if (rei.dataset.posicao === 'true') {

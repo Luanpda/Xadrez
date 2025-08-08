@@ -2,7 +2,7 @@ import { limparMovimentos } from "./movimento.js";
 import { verificarCell } from "./verificarCell.js";
 import { colocarPecasNew } from "./colocarPecasNew.js";
 import { criarTabuleiro8x8,colocarPecas } from "./colocarPecas.js";
-
+import { setNumeroJogadas,getNumeroJogadas } from "./turno.js";
 import { getModoDeJogo,setModoJogo } from "./colocarPecas.js";
 
 
@@ -37,6 +37,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
    const botao = evento.target.closest('.btn');
    if(!botao) return;
    if(botao.id === 'modo-xadrez2'){
+    setNumeroJogadas(1);
     const  tabuleiro = document.querySelectorAll('.cell');
     tabuleiro.forEach(peca => {
       peca.remove()
@@ -46,10 +47,14 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
     const tabuleiro = document.querySelector('.tabuleiro');
     const img = document.createElement('img')
     const cell = document.createElement('div');
-    cell.classList.add('cell','vazia');
 
+    const letrasCasas = ['a','b','c','d','e','f','g','h','i','j'];
+    const numeroCasas = ['10','9','8','7','6','5','4','3','2','1'];
+ 
     const linha = Math.floor(i / 10); 
     const coluna = i % 10;
+
+    cell.classList.add(`cell`, 'vazia', `${letrasCasas[coluna] + numeroCasas[linha]}`);
 
     cell.id = `cell-${i}`;
     
@@ -75,6 +80,8 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
 
     const modoJogo  = document.getElementById('modo-jogo-atual');
     modoJogo.innerHTML= 'Modo Atual: Xadrez 2'
+    
+    
 }
 
   colocarPecasNew()
@@ -84,6 +91,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
    }
    if(botao.id === 'modo-local'){
     criarTabuleiro8x8();
+    setNumeroJogadas(1);
     colocarPecas('branco');
     colocarPecas('preto');
     setModoJogo('local')
@@ -102,7 +110,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
     modoJogo.innerHTML= 'Modo Atual: Xadrez'
    }
    if(botao.id === 'modo-bot'){
-
+    setNumeroJogadas(1);
     botao.classList.add('d-none')
     const botao2P = document.getElementById('modo-local')
     botao2P.classList.remove('d-none');

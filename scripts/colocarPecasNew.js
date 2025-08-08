@@ -72,6 +72,6 @@ export function colocarPecasNew() {
             cell.appendChild(img);
         }
           
-
+  
 
 }

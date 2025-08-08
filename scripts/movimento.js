@@ -34,7 +34,9 @@ export function limparMovimentos() {
     const botoes = document.querySelectorAll('img.posicao');
     const posicao = document.querySelectorAll('div.posicao-cell');
     const cellMarcada = document.querySelectorAll('div.cell-marcada');
+    const cellMarcadaTp = document.querySelectorAll('div.cell-marcada-tp');
     cellMarcada.forEach(cell => cell.classList.remove('cell-marcada'));
+    cellMarcadaTp.forEach(cell => cell.classList.remove('cell-marcada-tp'));
     botoes.forEach(botao => botao.remove());
     posicao.forEach(posicao => posicao.classList.remove('posicao-cell'));
 }
@@ -290,8 +292,6 @@ export function movimentoPeao(id) {
 
     const idCell = Number(id.split('-')[1]);
     const peao = document.getElementById(id);
-    const linha = Math.floor(idCell / colunas);
-    const coluna = idCell % colunas;
     const isBranco = peao.classList.contains('peaoBranco');
 
     const classesPecas = [
@@ -312,7 +312,7 @@ export function movimentoPeao(id) {
     peao.setAttribute('data-posicao', 'true');
 
     const direcao = isBranco ? -colunas : colunas;
-    const inicio = isBranco ? tabuleiro.length - 2 : 1;
+    
 
     const direcoesDiagonal = [
         -colunas + 1,
@@ -355,7 +355,7 @@ export function movimentoPeao(id) {
     const celulaFrente2 = document.getElementById(`cell-${idFrente2}`);
 
     if (
-        linha === inicio &&
+        peao.dataset.movimento === "true"&&
         celulaFrente1 && celulaFrente1.classList.contains('vazia') &&
         celulaFrente2 && celulaFrente2.classList.contains('vazia')
     ) {
@@ -420,17 +420,18 @@ export function movimentoPeao(id) {
         
         if(isBranco){
             if (Array.from(destino.classList).some(classe => finalBranco.includes(classe))){
-                console.log('Peão Branco chegou ao final do tabuleiro!');
-              await escolhaPeca(destino, isBranco,peaoInicial);
-              return
-               
+              if (!document.getElementById('cell-99')) {
+                await escolhaPeca(destino, isBranco,peaoInicial);
+                return
+              }
             }
         }else{
             if (Array.from(destino.classList).some(classe => finalpreto.includes(classe))){
+               if (!document.getElementById('cell-99')) {
                 console.log('Peão Preto chegou ao final do tabuleiro!');
-               await  escolhaPeca(destino, isBranco,peaoInicial);
-               return
-                
+                await  escolhaPeca(destino, isBranco,peaoInicial);
+                return
+             }
             }
         }
         
@@ -450,7 +451,7 @@ export function movimentoPeao(id) {
 
     const classesPecas = [
         'peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
-        'peaoBranco', 'torreBranca', 'bispoBranca', 'cavaloBranco', 'rainhaBranca', 'reiBranca','ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','garca' ,'garcaBranco'
+        'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranca','ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','garca' ,'garcaBranco'
     ];
 
 

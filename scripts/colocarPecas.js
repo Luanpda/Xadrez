@@ -30,7 +30,7 @@ export function setModoJogo(valor){
 
     const linha = Math.floor(i / 8); 
     const coluna = i % 8;
-     cell.classList.add('cell','vazia',`${letrasCasas[coluna]+numeroCasas[linha]}`);
+    cell.classList.add('cell','vazia',`${letrasCasas[coluna]+numeroCasas[linha]}`);
     
     cell.id = `cell-${i}`;
     

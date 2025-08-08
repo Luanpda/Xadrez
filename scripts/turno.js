@@ -1,9 +1,17 @@
 
 import { getModoDeJogo } from "./colocarPecas.js";
 import { movimentoChess } from "./engine.js";
+import { spawnPecaEspecial } from "./spawnPecaEspecial.js";
 const turno = document.getElementById('turno');
+let numeroJogadas = 1;
 
+export function getNumeroJogadas() {
+    return  numeroJogadas;
+}
 
+export function setNumeroJogadas(numero) {
+    numeroJogadas = numero;
+}
 let movimentoAtual = gerarMovimento();
 
 function gerarMovimento() {
@@ -19,7 +27,7 @@ export function getMovimentoAtual() {
 }
 export function trocarMovimento(isBranco) {
     const todasPecas = document.querySelectorAll('[data-posicao]');
-    console.log(isBranco)
+    
     if(isBranco){
         const pecas = Array.from(todasPecas).filter(peca => {
         const classesDaPeca = peca.className;
@@ -96,7 +104,13 @@ const divsPretos = Array.from(todasPecas).filter(peca => {
         
     }
     
-        
+    let numeroDasJogadas = getNumeroJogadas();
+    setNumeroJogadas(numeroDasJogadas + 1);
+    console.log(`Número de jogadas: ${numeroDasJogadas}`);
+    if(document.getElementById('cell-99')){
+        spawnPecaEspecial();
+    }
+    
 }
     
 

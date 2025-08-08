@@ -56,10 +56,15 @@ body{
     max-width: 40%;
   max-height: 40%;
   object-fit: contain;
+
+
 }
 
 .cell-marcada{
   background-color: 	#FF0000!important;
+}
+.cell-marcada-tp{
+  background-color: 	#006BFF!important;
 }
 
 .tabuleiro{
@@ -72,6 +77,7 @@ body{
     
 }
 .tabuleiro div{
+   transition: background-color 0.3s ease;
     aspect-ratio: 1;
     border: 1px solid black;
    
