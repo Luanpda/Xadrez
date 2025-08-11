@@ -150,7 +150,9 @@ function getAbertura(){
 }
 
 let aberturaEscolhida = null;
-
+export function resetarAbertura(){
+    aberturaEscolhida = null;
+}
 
 export function movimentoChess() {
     const fen = gerarFenDoTabuleiro();
@@ -161,9 +163,16 @@ export function movimentoChess() {
        
     }
     if(aberturaEscolhida.length > 0 && !chess.isCheck()){
-        movimentoIA(aberturaEscolhida[0],'');
-        let jogada = aberturaEscolhida.shift();
-        return;
+        const peca = document.querySelector(`.${aberturaEscolhida[0].slice(0,2)}`)
+        console.log(peca)
+        if(Array.from(peca.classList).some(classe => classe.includes('Branc')) || peca.classList.contains('vazia')){
+
+        }else{
+            movimentoIA(aberturaEscolhida[0],'');
+            aberturaEscolhida.shift();
+            return;
+        }
+       
     }
     
     

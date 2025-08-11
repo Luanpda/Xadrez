@@ -11,10 +11,13 @@ export  function posicionarPeca(celula,src,classe){
     cell.classList.remove('vazia');
     cell.setAttribute("data-posicao", "false");
     cell.setAttribute("data-turno", "true");
-
-    cell.appendChild(peca);
+    cell.classList.add('spawned')
     
-
+    setTimeout(() => {
+        cell.classList.remove('spawned')
+        cell.appendChild(peca);
+    }, 1500);
+    
 }
 
 // posicionarPeca('e7', 'newPecas/branca/commonr-w.svg', 'tpBranco');

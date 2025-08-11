@@ -66,7 +66,9 @@ body{
 .cell-marcada-tp{
   background-color: 	#006BFF!important;
 }
-
+.spawned{
+  background-color: #001BB7!important;
+}
 .tabuleiro{
     width:85vmin;
     height: 85vmin;
@@ -77,7 +79,7 @@ body{
     
 }
 .tabuleiro div{
-   transition: background-color 0.3s ease;
+   transition: background-color 0.28s ease;
     aspect-ratio: 1;
     border: 1px solid black;
    
@@ -96,8 +98,8 @@ body{
 }
 
 .peca {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 85%;
+  max-height: 85%;
   object-fit: contain;
 }
 

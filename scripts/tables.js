@@ -152,7 +152,7 @@ P: [
   }
 };
 
-export  const classesPecas = ['ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','peao','peaoBranco','garca','garcaBranco','tpBranco','tp'];
+export  const classesPecas = ['ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','peao','peaoBranco','garca','garcaBranco','tpBranco','tp','dragao','dragaoBranco','torre','torreBranca','bispo','bispoBranco','cavalo','cavaloBranco','rainha','rainhaBranca'];
 
 
 export const tabuleiro = [

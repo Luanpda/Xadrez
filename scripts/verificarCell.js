@@ -9,7 +9,8 @@ import { movimentoGarca } from "./movimentoGarca.js";
 import { movimentoGafanhoto } from "./movimemtoGafanhoto.js";
 import { movimentoCamelo } from "./movimentoCamelo.js";
 import { movimentoOrnamento } from "./movimentoOrnamento.js";
-import { movimentoTp } from "./tpMovimento.js";
+import { movimentoTp } from "./tpMovimento.js"
+import { movimentoDragao } from "./movDragao.js";
 
 export function verificarCell(classes,id){
     if( classes.includes('torre') || classes.includes('torreBranca')){
@@ -63,6 +64,10 @@ export function verificarCell(classes,id){
     if( classes.includes('tp')  || classes.includes('tpBranco')){
         if(classes.includes('cell-marcada')) return;
         movimentoTp(id);
+    }
+    if( classes.includes('dragao')  || classes.includes('dragaoBranco')){
+        if(classes.includes('cell-marcada')) return;
+        movimentoDragao(id);
     }
 
 }

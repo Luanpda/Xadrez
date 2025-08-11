@@ -3,8 +3,9 @@ import { verificarCell } from "./verificarCell.js";
 import { colocarPecasNew } from "./colocarPecasNew.js";
 import { criarTabuleiro8x8,colocarPecas } from "./colocarPecas.js";
 import { setNumeroJogadas,getNumeroJogadas } from "./turno.js";
-import { getModoDeJogo,setModoJogo } from "./colocarPecas.js";
-
+import {setModoJogo } from "./colocarPecas.js";
+import { resetarPecaSpawned } from "./spawnPecaEspecial.js";
+import { resetarAbertura } from "./engine.js";
 
 
 
@@ -37,6 +38,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
    const botao = evento.target.closest('.btn');
    if(!botao) return;
    if(botao.id === 'modo-xadrez2'){
+    resetarPecaSpawned();
     setNumeroJogadas(1);
     const  tabuleiro = document.querySelectorAll('.cell');
     tabuleiro.forEach(peca => {
@@ -90,6 +92,7 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
 
    }
    if(botao.id === 'modo-local'){
+    resetarAbertura();
     criarTabuleiro8x8();
     setNumeroJogadas(1);
     colocarPecas('branco');

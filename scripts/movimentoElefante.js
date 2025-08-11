@@ -1,25 +1,13 @@
 import { limparMovimento, limparMovimentos} from "./movimento.js";
-import { alternarTurno } from "./turno.js";
-
+import { movimentoPadraoCaptura } from "./movimento.js";
+import { classesPecas,tabuleiro } from "./tables.js";
 export function movimentoElefante(id){
     const idCell = Number(id.split('-')[1]);
     const linha = Math.floor(idCell / 10);
     const coluna = idCell % 10;
     const elefante = document.getElementById(id);
     const isBranco = elefante.classList.contains('elefanteBranco');
-    const classesPecas = ['ornamentoBranco','elefanteBranco','cameloBranco','gafanhotoBranco','reiBranco','gatoBranco','gafanhotoBranco','cameloBranco','elefanteBranco','ornamentoBranco','ornamento','elefante','camelo','gafanhoto','rei','gato','gafanhoto','camelo','elefante','ornamento','peao','peaoBranco','garca','garcaBranco'];
-    const tabuleiro = [
-  [  0,  1,  2,  3,  4,  5,  6,  7,  8,  9 ],
-  [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ],
-  [ 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ],
-  [ 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 ],
-  [ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49 ],
-  [ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59 ],
-  [ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69 ],
-  [ 70, 71, 72, 73, 74, 75, 76, 77, 78, 79 ],
-  [ 80, 81, 82, 83, 84, 85, 86, 87, 88, 89 ],
-  [ 90, 91, 92, 93, 94, 95, 96, 97, 98, 99 ]
-];
+   
     if(elefante.dataset.turno === 'false') return;
     if (elefante.dataset.posicao === 'true') {
         limparMovimentos();
@@ -79,30 +67,7 @@ export function movimentoElefante(id){
     if (!pecaCliclada) return;
 
     limparMovimentos();
+    movimentoPadraoCaptura(cell,pecaCliclada,isBranco,classesPecas,'elefante.png','elefante.png','elefante');
 
-    const imgInicial = pecaCliclada.querySelector('img');
-    if (imgInicial) pecaCliclada.removeChild(imgInicial);
-
-    const imgNova = document.createElement('img');
-    imgNova.src = `${isBranco ? 'newPecas/branca/elefante.png' : 'newPecas/preta/elefante.png'}`;
-    imgNova.classList.add('peca', isBranco ? 'elefanteBranco' : 'elefante');
-
-    
-    const imgAlvo = cell.querySelector('img');
-    if (imgAlvo) cell.removeChild(imgAlvo);
-
-    
-    pecaCliclada.classList.remove('elefanteBranco', 'elefante');
-    pecaCliclada.classList.add('vazia');
-    pecaCliclada.removeAttribute('data-posicao');
-
-    
-    cell.setAttribute('data-posicao', 'false');
-    cell.classList.remove(...Array.from(cell.classList).filter(classe => classesPecas.includes(classe)));
-    cell.classList.remove('vazia', 'cell-marcada', 'posicao-cell');
-    cell.classList.add(isBranco ? 'elefanteBranco' : 'elefante');
-    cell.appendChild(imgNova);
-    cell.setAttribute('data-turno', 'false');
-    alternarTurno();
 }, { once: true });
 }
