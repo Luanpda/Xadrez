@@ -133,5 +133,19 @@ document.getElementById('container-menu').addEventListener('pointerdown',(evento
     colocarPecas('branco');
     colocarPecas('preto');
    }
+   if(botao.id=== 'stockfish'){
+     setNumeroJogadas(1);
+     
+      const turno = document.getElementById('turno');
+      turno.innerHTML = 'Turno: Brancas';
+
+      setModoJogo('stockfish');
+      criarTabuleiro8x8();
+      colocarPecas('branco');
+      colocarPecas('preto');
+
+
+   }
+     
 
 })

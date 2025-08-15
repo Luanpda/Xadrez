@@ -325,7 +325,7 @@ export function movimentoPeao(id) {
 
     const classesPecas = [
         'peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
-        'peaoBranco', 'torreBranca', 'bispoBranca', 'cavaloBranco', 'rainhaBranca', 'reiBranca', 'ornamentoBranco', 'elefanteBranco', 'cameloBranco', 'gafanhotoBranco', 'reiBranco', 'gatoBranco', 'gafanhotoBranco', 'cameloBranco', 'elefanteBranco', 'ornamentoBranco', 'ornamento', 'elefante', 'camelo', 'gafanhoto', 'rei', 'gato', 'gafanhoto', 'camelo', 'elefante', 'ornamento', 'garca', 'garcaBranco'
+        'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranca', 'ornamentoBranco', 'elefanteBranco', 'cameloBranco', 'gafanhotoBranco', 'reiBranco', 'gatoBranco', 'gafanhotoBranco', 'cameloBranco', 'elefanteBranco', 'ornamentoBranco', 'ornamento', 'elefante', 'camelo', 'gafanhoto', 'rei', 'gato', 'gafanhoto', 'camelo', 'elefante', 'ornamento', 'garca', 'garcaBranco'
     ];
 
     if (peao.dataset.turno === `false`) return;

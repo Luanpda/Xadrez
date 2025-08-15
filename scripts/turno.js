@@ -2,6 +2,7 @@
 import { getModoDeJogo } from "./colocarPecas.js";
 import { movimentoChess } from "./engine.js";
 import { spawnPecaEspecial } from "./spawnPecaEspecial.js";
+import { stockfishJogada } from "./stockfishEngine.js";
 const turno = document.getElementById('turno');
 let numeroJogadas = 1;
 
@@ -43,6 +44,12 @@ export function trocarMovimento(isBranco) {
                 movimentoChess()
             },100);
             
+         }
+         if(modoAtual === 'stockfish'){
+            setTimeout( ()=> {
+                console.log('ds')
+                stockfishJogada(5)
+            },100);
          }
 
     }else {
@@ -93,6 +100,12 @@ const divsPretos = Array.from(todasPecas).filter(peca => {
                 movimentoChess()
             },100);
             
+         }
+         if(modoAtual === 'stockfish'){
+            setTimeout( ()=> {
+                console.log('ds')
+                stockfishJogada(5)
+            },100);
          }
          
          

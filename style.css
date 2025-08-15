@@ -1,100 +1,132 @@
-
-:root{
-    --cor-clara: #e0e0e0;
-    --cor-escura: 	#3c6e47;
-    --cor-de-fundo: #343a40;
+:root {
+  --cor-clara: #e0e0e0;
+  --cor-escura: #3c6e47;
+  --cor-de-fundo: #343a40;
 }
 
-body{
-    background-color: var(--cor-de-fundo);
-     
- 
-   
+body {
+  background-color: black;
+
+
+
 }
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
- 
+
+.menu {
+  background-color: #232323;
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 30px;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+
 }
-.div-container-opcoes-peca{
+
+.div-container-opcoes-peca {
   margin: 0 2rem;
   height: 30em;
-  
+
   margin: 0 2rem;
 }
-#container-menu{
-  background-color: #212121;
-  min-height: 15em;
-  min-width: 15em;
+
+#container-menu {
+  max-height: 40em;
+  min-width: 24em;
   border-radius: 20px;
   
+  gap: 1em;
+ 
+  
+ 
+
 }
-#container-opcoes-peca{
-   background-color: #212121;
-    min-height: 10em;
-    min-width: 20em;
-    border-radius: 20px;
-}
-.spacer {
-   min-height: 15em;
-    min-width: 15em;
-    visibility: hidden;
+.menu-marcacao{
+  background-color: #343a40;
+   border: #e0e0e0 solid 2px;
+   border-radius:  25px;
+   margin: 1em;
+   
 }
 
-.turno{
-  margin-left: 5%;
+#container-opcoes-peca {
+  background-color: #212121;
+  width: 95%;
+  border-radius: 20px;
 }
-.botao{
+
+.spacer {
+  min-height: 15em;
+  min-width: 15em;
+  visibility: hidden;
+}
+
+.img-promocao {
+  width: 20%;
+}
+
+
+.fonte{
+  font-size: 1.5em;
+}
+
+
+
+.botao {
   margin-right: 5%;
 }
-.botao-modo-jogo{
+
+.botao-modo-jogo {
   width: 8em;
 }
 
-.posicao{
-    max-width: 40%;
+.posicao {
+  max-width: 40%;
   max-height: 40%;
   object-fit: contain;
 
 
 }
 
-.cell-marcada{
-  background-color: 	#FF0000!important;
+.cell-marcada {
+  background-color: #FF0000 !important;
 }
-.cell-marcada-tp{
-  background-color: 	#006BFF!important;
+
+.cell-marcada-tp {
+  background-color: #006BFF !important;
 }
-.spawned{
-  background-color: #001BB7!important;
+
+.spawned {
+  background-color: #001BB7 !important;
 }
-.tabuleiro{
-    width:85vmin;
-    height: 85vmin;
-    max-width: 680px; 
-    max-height: 680px; 
-    margin-top: 1rem;
-    grid-template-columns: repeat(8, 1fr);
-    
+
+.tabuleiro {
+  width: 85vmin;
+  height: 85vmin;
+  max-width: 880px;
+  max-height: 880px;
+  margin-left: 1.5em;
+  grid-template-columns: repeat(8, 1fr);
+
+
 }
-.tabuleiro div{
-   transition: background-color 0.28s ease;
-    aspect-ratio: 1;
-    border: 1px solid black;
-   
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
+
+.tabuleiro div {
+  transition: background-color 0.28s ease;
+  aspect-ratio: 1;
+  border: 1px solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 
-.branca{
-    background-color: var(--cor-clara);
+.branca {
+  background-color: var(--cor-clara);
 }
-.marcada{
-    background-color: var(--cor-escura);
+
+.marcada {
+  background-color: var(--cor-escura);
 }
 
 .peca {
@@ -111,19 +143,19 @@ body{
 .tabuleiro .h4,
 .tabuleiro .h5,
 .tabuleiro .h6 {
-    font-size: inherit;
-    font-weight: normal;
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: initial;
-    color: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: initial;
+  color: inherit;
 }
 
 .botao {
   --color: #093FB4;
   font-family: inherit;
   display: inline-block;
-  width: 8em;
+  width: 5em;
   height: 2.6em;
   line-height: 2.5em;
   display: flex;
@@ -170,18 +202,22 @@ body{
   background: #3a0ca3;
   transition: background 0s;
 }
+
 @media (max-width: 600px) {
-  .spacer{
+  .spacer {
     display: none;
   }
-  body{
-     box-sizing: border-box;
+
+  body {
+    box-sizing: border-box;
   }
- .container {
+
+  .container {
     flex-direction: column-reverse;
     align-items: center;
     padding: 0;
   }
+
   .tabuleiro {
     width: 90vw;
     height: 90vw;
@@ -191,22 +227,28 @@ body{
     margin-top: 0.5em;
     box-sizing: border-box;
   }
-.div-container-opcoes-peca{
- flex-direction: column-reverse;
- height: auto;
-}
-#container-opcoes-peca{
- min-width: auto;
- min-height: 4em;
-}
-#container-menu{
- min-width: 20em;
- min-height: 4em;
- margin-top: 1em;
-}
-#turno,#modo-jogo-atual{
-  font-size: 1rem;
-}
+
+  .div-container-opcoes-peca {
+    flex-direction: column-reverse;
+    height: auto;
+  }
+
+  #container-opcoes-peca {
+    min-width: auto;
+    min-height: 4em;
+  }
+
+  #container-menu {
+    min-width: 20em;
+    min-height: 4em;
+    margin-top: 1em;
+  }
+
+  #turno,
+  #modo-jogo-atual {
+    font-size: 1rem;
+  }
+
   .peca {
     max-width: 95%;
     max-height: 95%;
