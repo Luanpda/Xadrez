@@ -34,6 +34,7 @@
                     <div class=" d-flex flex-column  titulo  ">
                         <h1 id="turno" class="text-white turno fonte">Turno: Brancas</h1>
                         <h1 id="modo-jogo-atual" class="text-white fonte">Modo Atual: Xadrez</h1>
+                        <h1 id="modo-jogo-atual " class="text-white fonte dificuldade d-none">Dificuldade:</h1>
 
                     </div>
 
@@ -42,16 +43,28 @@
                         <h2 class="text-white">Escolher modo:</h2>
                         <div class="menu-marcacao">
 
-                            <p class="text-white ms-4 fonte">Contra o computador:</p>
+                            <p id='texto-contra-computador'class="text-white ms-4 fonte">Contra o computador:</p>
                             <div class="d-flex align-items-center justify-content-center mt-3 gap-2 ">
-                                <button id="modo-bot" class="btn botao botao-modo-jogo text-white">IA🤖</button>
-                                <button id="modo-local" class="btn botao botao-modo-jogo text-white">Xadrez</button>
-                                <button id="modo-xadrez2" class="btn botao botao-modo-jogo text-white">10X10</button>
-                            </div>
-                            <P class=" text-white ms-4 mt-4" style="font-size: 1.3em;">10X10:</P>
-                            <div class="d-flex align-items-center justify-content-center mt-3 gap-2 ">
-                                
+                                <button id="modo-bot" class="btn botao botao-modo-jogo text-white">IA local</button>
                                 <button id="stockfish" class="btn botao botao-modo-jogo text-white">Stockfish</button>
+                                <button id="modo-local" class="btn botao botao-modo-jogo text-white d-none">Local</button>
+                                  <div id="input-stockfish" class="centered d-none">
+                                    <div class="group">
+                                        <input type="text" id="name" required>
+                                        <label for="name">Dificuldade</label>
+                                        <div class="bar"></div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <P id="texto-outras-opcoes" class="text-white ms-4 mt-4" style="font-size: 1.3em;">OU:
+                            </P>
+                            <div id="outras-opcoes"
+                                class="d-flex align-items-center justify-content-center mt-3 gap-2 ">
+                                <button id="modo-xadrez2" class="btn botao botao-modo-jogo text-white">10X10</button>
+                              
+
+
                             </div>
 
 

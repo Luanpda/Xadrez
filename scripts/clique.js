@@ -10,7 +10,7 @@ import { resetarAbertura } from "./engine.js";
 
 
 
-
+let dificuldade;
 
 document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
   const celula = evento.target.closest('.cell');
@@ -47,7 +47,7 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
     document.querySelector('.tabuleiro').style.gridTemplateColumns = 'repeat(10, 1fr)';
     for (let i = 0; i < 100; i++) {
       const tabuleiro = document.querySelector('.tabuleiro');
-      const img = document.createElement('img')
+    
       const cell = document.createElement('div');
 
       const letrasCasas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -66,7 +66,7 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
       } else {
         cell.classList.add('marcada');
       }
-
+      dificuldade = undefined;
       tabuleiro.appendChild(cell);
 
       botao.classList.add('d-none')
@@ -75,14 +75,24 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
 
       const botaoIA = document.getElementById("modo-bot");
       botaoIA.classList.add("d-none");
-
+      const dificuldadeTexto = document.querySelector('.dificuldade');
+      dificuldadeTexto.classList.add('d-none');
 
       const turno = document.getElementById('turno');
       turno.innerHTML = 'Turno: Brancas';
 
       const modoJogo = document.getElementById('modo-jogo-atual');
-      modoJogo.innerHTML = 'Modo Atual: Xadrez 2'
+      modoJogo.innerHTML = 'Modo Atual: 10x10';
 
+      const textoOU = document.getElementById('texto-outras-opcoes');
+      textoOU.classList.add('d-none');
+      const textoComputador = document.getElementById('texto-contra-computador');
+      textoComputador.innerHTML='Xadrez normal:';
+      const stockfish = document.getElementById('stockfish');
+      stockfish.classList.add('d-none')
+      const inputStockfish = document.getElementById('input-stockfish');
+      inputStockfish.classList.add('d-none');
+      
 
     }
 
@@ -99,31 +109,63 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
     colocarPecas('preto');
     setModoJogo('local')
     botao.classList.add('d-none')
+    dificuldade = undefined;
     const botaoXadrez2 = document.getElementById('modo-xadrez2')
     botaoXadrez2.classList.remove('d-none');
 
     const turno = document.getElementById('turno');
     turno.innerHTML = 'Turno: Brancas';
 
+    const dificuldadeTexto = document.querySelector('.dificuldade');
+    dificuldadeTexto.classList.add('d-none');
+
     const botaoIA = document.getElementById("modo-bot");
     botaoIA.classList.remove("d-none");
+
+    const inputStockfish = document.getElementById('input-stockfish');
+    inputStockfish.classList.add('d-none');
 
 
     const modoJogo = document.getElementById('modo-jogo-atual');
     modoJogo.innerHTML = 'Modo Atual: Xadrez'
+
+    const textoComputador = document.getElementById('texto-contra-computador');
+    textoComputador.innerHTML = 'Contra o computador:';
+
+    const stockfish = document.getElementById('stockfish');
+    stockfish.classList.remove('d-none');
+
+    const textoOU = document.getElementById('texto-outras-opcoes');
+    textoOU.classList.remove('d-none');
   }
   if (botao.id === 'modo-bot') {
     setNumeroJogadas(1);
     botao.classList.add('d-none')
+    dificuldade = undefined;
     const botao2P = document.getElementById('modo-local')
     botao2P.classList.remove('d-none');
 
     const xadrez2 = document.getElementById("modo-xadrez2");
     xadrez2.classList.add('d-none');
 
+    const dificuldadeTexto = document.querySelector('.dificuldade');
+    dificuldadeTexto.classList.add('d-none');
+    
+    const textoOU = document.getElementById('texto-outras-opcoes');
+    textoOU.classList.add('d-none');
 
     const turno = document.getElementById('turno');
     turno.innerHTML = 'Turno: Brancas';
+
+    const stockfish = document.getElementById('stockfish');
+    stockfish.classList.add('d-none');
+
+
+    const botaoXadrez2 = document.getElementById('modo-xadrez2')
+    botaoXadrez2.classList.add('d-none');
+
+    const textoComputador = document.getElementById('texto-contra-computador');
+    textoComputador.innerHTML = 'Xadrez normal:';
 
     const modoJogo = document.getElementById('modo-jogo-atual');
     modoJogo.innerHTML = 'Modo Atual: Contra IA'
@@ -135,12 +177,32 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
   }
   if (botao.id === 'stockfish') {
     setNumeroJogadas(1);
+    
 
     const turno = document.getElementById('turno');
     turno.innerHTML = 'Turno: Brancas';
 
     const modoJogo = document.getElementById('modo-jogo-atual');
-    modoJogo.innerHTML = 'Modo Atual: Contra Stockfish'
+    modoJogo.innerHTML = 'Modo Atual: Stockfish'
+
+    const botao2P = document.getElementById('modo-local');
+    const divOpcoes = document.getElementById('outras-opcoes');
+   
+    const botaoIA = document.getElementById("modo-bot");
+    const inputStockfish = document.getElementById('input-stockfish');
+    const textoComputador = document.getElementById('texto-contra-computador');
+
+    textoComputador.innerHTML = 'Stockfish nível 1-20:'
+    botao.classList.toggle('d-none')
+    inputStockfish.classList.toggle('d-none')
+    botaoIA.classList.add("d-none");
+   
+    divOpcoes.appendChild(botao2P);
+    botao2P.classList.remove('d-none')
+
+
+
+
 
     setModoJogo('stockfish');
     criarTabuleiro8x8();
@@ -152,3 +214,38 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
 
 
 })
+const input =  document.getElementById('name');
+
+export function getDificuldade(){
+  return dificuldade;
+}
+
+input.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        console.log('Enter pressionado:', input.value);
+        if(  input.value >= 0 && input.value <=20){
+          console.log('salve');
+          dificuldade = input.value;
+          const dificuldadeTexto = document.querySelector('.dificuldade');
+          dificuldadeTexto.innerHTML=`Dificuldade: ${dificuldade}`;
+          dificuldadeTexto.classList.remove('d-none');
+
+          const textoComputador = document.getElementById('texto-contra-computador');
+          textoComputador.innerHTML = 'Xadrez normal:'
+
+          const textoOU = document.getElementById('texto-outras-opcoes');
+          textoOU.classList.add('d-none');
+
+          const inputStockfish = document.getElementById('input-stockfish');
+          inputStockfish.classList.add('d-none');
+
+          const xadrez2 = document.getElementById("modo-xadrez2");
+          xadrez2.classList.add('d-none');
+        }else{
+          alert("DIGITE UM NUMERO VÁLIDO");
+          input.value='';
+        }
+        
+    }
+});
+    

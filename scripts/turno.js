@@ -3,11 +3,12 @@ import { getModoDeJogo } from "./colocarPecas.js";
 import { movimentoChess } from "./engine.js";
 import { spawnPecaEspecial } from "./spawnPecaEspecial.js";
 import { stockfishJogada } from "./stockfishEngine.js";
+import { getDificuldade } from "./clique.js";
 const turno = document.getElementById('turno');
 let numeroJogadas = 1;
 
 export function getNumeroJogadas() {
-    return  numeroJogadas;
+    return numeroJogadas;
 }
 
 export function setNumeroJogadas(numero) {
@@ -19,7 +20,7 @@ function gerarMovimento() {
     return Math.floor(Math.random() * 6);
 }
 
- function atualizarMovimento() {
+function atualizarMovimento() {
     movimentoAtual = gerarMovimento();
 }
 
@@ -28,42 +29,48 @@ export function getMovimentoAtual() {
 }
 export function trocarMovimento(isBranco) {
     const todasPecas = document.querySelectorAll('[data-posicao]');
-    
-    if(isBranco){
+
+    if (isBranco) {
         const pecas = Array.from(todasPecas).filter(peca => {
-        const classesDaPeca = peca.className;
-        return !classesDaPeca.includes('Branc'); 
-    });
-    pecas.forEach(peca => {
+            const classesDaPeca = peca.className;
+            return !classesDaPeca.includes('Branc');
+        });
+        pecas.forEach(peca => {
             peca.dataset.turno = 'true';
         });
         turno.innerHTML = 'Turno Preto';
         const modoAtual = getModoDeJogo();
-         if(modoAtual === 'IA'){
-            setTimeout( ()=> {
+        if (modoAtual === 'IA') {
+            setTimeout(() => {
                 movimentoChess()
-            },100);
-            
-         }
-         if(modoAtual === 'stockfish'){
-            setTimeout( ()=> {
-                console.log('ds')
-                stockfishJogada(5)
-            },100);
-         }
+            }, 100);
 
-    }else {
-        
+        }
+        if (modoAtual === 'stockfish') {
+            setTimeout(() => {
+                const dificuldade = getDificuldade();
+                console.log(`dificuldade`,dificuldade)
+                if(dificuldade === undefined){
+                    alert("DIGITE UMA DIFICULDADE PRIMEIRO!!!!");
+                    window.location.reload();
+                    return;
+                }
+                stockfishJogada(dificuldade)
+            }, 100);
+        }
+
+    } else {
+
         const pecas = Array.from(todasPecas).filter(peca => {
-        const classesDaPeca = peca.className;
-        return classesDaPeca.includes('Branc');
-    });
-    pecas.forEach(peca => {
+            const classesDaPeca = peca.className;
+            return classesDaPeca.includes('Branc');
+        });
+        pecas.forEach(peca => {
             peca.dataset.turno = 'true';
         });
         turno.innerHTML = 'Turno Branco'
     }
-    
+
 
 }
 
@@ -73,58 +80,64 @@ export function impedirMovimento() {
         peca.dataset.turno = 'false';
 
     })
-    
+
 }
-export function alternarTurno(){
+export function alternarTurno() {
     const todasPecas = document.querySelectorAll('[data-posicao]');
     const divsBrancos = Array.from(todasPecas).filter(peca => {
-    const classesDaPeca = peca.className;
-    return classesDaPeca.includes('Branc');
-});
+        const classesDaPeca = peca.className;
+        return classesDaPeca.includes('Branc');
+    });
 
-const divsPretos = Array.from(todasPecas).filter(peca => { 
-    const classesDaPeca = peca.className;
-    return !classesDaPeca.includes('Branc');
-    
-})
+    const divsPretos = Array.from(todasPecas).filter(peca => {
+        const classesDaPeca = peca.className;
+        return !classesDaPeca.includes('Branc');
+
+    })
     const turnoBrancas = Array.from(divsBrancos).some(peca => peca.dataset.turno === 'true');
-    if(turnoBrancas){
+    if (turnoBrancas) {
         divsBrancos.forEach(peca => peca.dataset.turno = 'false');
         divsPretos.forEach(peca => peca.dataset.turno = 'true');
         atualizarMovimento()
         const modoAtual = getModoDeJogo();
-        
-         turno.innerHTML = 'Turno: Preto';
-         if(modoAtual === 'IA'){
-            setTimeout( ()=> {
+
+        turno.innerHTML = 'Turno: Preto';
+        if (modoAtual === 'IA') {
+            setTimeout(() => {
                 movimentoChess()
-            },100);
-            
-         }
-         if(modoAtual === 'stockfish'){
-            setTimeout( ()=> {
-                console.log('ds')
-                stockfishJogada(5)
-            },100);
-         }
-         
-         
-    }else {
+            }, 100);
+
+        }
+        if (modoAtual === 'stockfish') {
+            setTimeout(() => {
+                const dificuldade = getDificuldade();
+                console.log(`dificuldade`,dificuldade)
+                 if(dificuldade === undefined){
+                    alert("DIGITE UMA DIFICULDADE PRIMEIRO!!!!");
+                    window.location.reload();
+                    return;
+                }
+                stockfishJogada(dificuldade)
+            }, 100);
+        }
+
+
+    } else {
         divsPretos.forEach(peca => peca.dataset.turno = 'false');
         divsBrancos.forEach(peca => peca.dataset.turno = 'true');
         turno.innerHTML = 'Turno: Branco';
         atualizarMovimento()
-        
+
     }
-    
+
     let numeroDasJogadas = getNumeroJogadas();
     setNumeroJogadas(numeroDasJogadas + 1);
     console.log(`Número de jogadas: ${numeroDasJogadas}`);
-    if(document.getElementById('cell-99')){
+    if (document.getElementById('cell-99')) {
         spawnPecaEspecial();
     }
-    
+
 }
-    
+
 
 
