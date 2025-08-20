@@ -15,7 +15,7 @@ let dificuldade;
 let imgAtiva = null;
 document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
   const celula = evento.target.closest('.cell');
-
+ 
   if (celula.dataset.turno === 'false') return;
 
   if (celula) {
@@ -47,7 +47,7 @@ document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) =>
 });
 
 
-// mover enquanto segura
+
 document.querySelector('.tabuleiro').addEventListener('pointermove', (evento) => {
   const cell = evento.target.closest('.cell');
   if (cell.dataset.turno === 'false') return;
@@ -57,7 +57,7 @@ document.querySelector('.tabuleiro').addEventListener('pointermove', (evento) =>
   }
 });
 
-// soltar
+
 document.querySelector('.tabuleiro').addEventListener('pointerup', (e) => {
   const cell = e.target.closest('.cell');
   if (cell.dataset.turno === 'false') return;
@@ -78,8 +78,7 @@ document.querySelector('.tabuleiro').addEventListener('pointerup', (e) => {
     const imgPosicao = elementoAbaixo.querySelector('img')
     const cell = e.target.closest(".cell");
 
-    console.log(elementoAbaixo)
-    console.log(imgPosicao);
+    
 
     if (imgPosicao) {
       if (cell !== elementoAbaixo) {
@@ -236,7 +235,7 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
   }
   if (botao.id === 'stockfish') {
     setNumeroJogadas(1);
-
+    
 
     const turno = document.getElementById('turno');
     turno.innerHTML = 'Turno: Brancas';
@@ -267,7 +266,8 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
     criarTabuleiro8x8();
     colocarPecas('branco');
     colocarPecas('preto');
-
+    
+   
 
   }
 
@@ -281,9 +281,9 @@ export function getDificuldade() {
 
 input.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
-    console.log('Enter pressionado:', input.value);
+    
     if (input.value >= 0 && input.value <= 20) {
-      console.log('salve');
+     
       dificuldade = input.value;
       const dificuldadeTexto = document.querySelector('.dificuldade');
       dificuldadeTexto.innerHTML = `Dificuldade: ${dificuldade}`;

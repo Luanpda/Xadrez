@@ -49,8 +49,8 @@ export function trocarMovimento(isBranco) {
         if (modoAtual === 'stockfish') {
             setTimeout(() => {
                 const dificuldade = getDificuldade();
-                console.log(`dificuldade`,dificuldade)
-                if(dificuldade === undefined){
+                console.log(`dificuldade`, dificuldade)
+                if (dificuldade === undefined) {
                     alert("DIGITE UMA DIFICULDADE PRIMEIRO!!!!");
                     window.location.reload();
                     return;
@@ -111,13 +111,25 @@ export function alternarTurno() {
         if (modoAtual === 'stockfish') {
             setTimeout(() => {
                 const dificuldade = getDificuldade();
-                console.log(`dificuldade`,dificuldade)
-                 if(dificuldade === undefined){
+                console.log(`dificuldade`, dificuldade)
+                if (dificuldade === undefined) {
                     alert("DIGITE UMA DIFICULDADE PRIMEIRO!!!!");
                     window.location.reload();
                     return;
                 }
                 stockfishJogada(dificuldade)
+
+                const todasPecas = document.querySelectorAll('[data-posicao]');
+                const divsPretos = Array.from(todasPecas).filter(peca => {
+                    const classesDaPeca = peca.className;
+                    return !classesDaPeca.includes('Branc');
+
+                })
+                console.log(divsPretos)
+                Array.from(divsPretos).forEach((cell) => {
+                    cell.dataset.turno='false';
+                })
+
             }, 100);
         }
 

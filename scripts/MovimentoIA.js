@@ -1,9 +1,15 @@
+import { movimentoTp } from "./tpMovimento.js";
 import { alternarTurno } from "./turno.js";
 
 export  function movimentoIA(movimento,promocao){
 
     const pecaInicial = document.querySelector(`.${movimento.slice(0,2)}`)
-    const destinoDaPeca = document.querySelector(`.${movimento.slice(2)}`)
+    let destinoDaPeca = document.querySelector(`.${movimento.slice(2)}`)
+    if(movimento.slice(2).length >2){
+        promocao = movimento.slice(4,5);
+        console.log("PROMOÇÂO: ",promocao);
+        destinoDaPeca = document.querySelector(`.${movimento.slice(2,4)}`)
+    }
     const promocaoSrcs = {
         'Q': 'queen-w.svg',
         'R': 'rook-w.svg',
