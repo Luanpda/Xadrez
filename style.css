@@ -10,6 +10,29 @@ body {
 
 
 }
+.nome-casa {
+  position: absolute;
+  font-size: 1.1em;
+  color: #1a1717;
+  top: 50px;
+  left: 63px;
+  pointer-events: none;
+  z-index: 2;
+}
+.nome-casa-num{
+
+  position: absolute;
+  font-size: 1.1em;
+  color: #1a1717;
+  top: 2px;
+  left: 4px;
+  pointer-events: none;
+  z-index: 2;
+
+}
+.cell {
+  position: relative;
+}
 
 .menu {
   background-color: #232323;
@@ -23,8 +46,8 @@ body {
 
 @media (min-width: 2000px) {
   .menu {
-    max-width: 1400px;
-    /* em telas > 1400px */
+    max-width: 1500px;
+  
   }
 }
 
@@ -136,8 +159,13 @@ body {
   max-width: 85%;
   max-height: 85%;
   object-fit: contain;
+  position: relative;
+  z-index: 10;
 }
-
+.peca.dragging {
+  position: absolute;
+  z-index: 100;
+}
 
 
 .tabuleiro .h1,

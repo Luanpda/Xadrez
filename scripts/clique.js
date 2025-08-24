@@ -1,4 +1,4 @@
-import { limparMovimentos } from "./movimento.js";
+import { limparMovimentos, limparMovimento } from "./movimento.js";
 import { verificarCell } from "./verificarCell.js";
 import { colocarPecasNew } from "./colocarPecasNew.js";
 import { criarTabuleiro8x8, colocarPecas } from "./colocarPecas.js";
@@ -13,9 +13,88 @@ let isDragging = false;
 let offsetX, offsetY;
 let dificuldade;
 let imgAtiva = null;
+
+document.querySelector('#img-inverter').addEventListener('pointerdown', (evento) => {
+  const brancEmBaixo = document.getElementById('cell-56')
+  const todasPecas = document.querySelectorAll('[data-posicao]');
+  const todasCells = document.querySelectorAll('.cell');
+  const classesPecas = ['peao', 'torre', 'bispo', 'cavalo', 'rainha', 'rei',
+    'peaoBranco', 'torreBranca', 'bispoBranco', 'cavaloBranco', 'rainhaBranca', 'reiBranco', 'vazia', 'cell', 'branca', 'marcada', 'cell-marcada', 'posicao-cell'];
+  const letrasCasas = brancEmBaixo.classList.contains('a1') ? ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'] : ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  const numeroCasas = brancEmBaixo.classList.contains('a1') ? ['1', '2', '3', '4', '5', '6', '7', '8'] : ['8', '7', '6', '5', '4', '3', '2', '1'];
+  limparMovimento()
+  limparMovimentos();
+  Array.from(todasCells).forEach((cell) => {
+    const cellClass = cell.classList;
+    cellClass.forEach((c) => {
+      if (!classesPecas.includes(c)) {
+        cellClass.remove(c);
+      }
+      if (cell.querySelector('span')) {
+        cell.removeChild(cell.querySelector('span'));
+      }
+    })
+
+    const idCell = Number(cell.id.split('-')[1]);
+
+    const linha = Math.floor(idCell / 8);
+    const coluna = idCell % 8;
+    const nomeCasa = letrasCasas[coluna] + numeroCasas[linha];
+    cell.classList.add(nomeCasa);
+
+    if (idCell >= 56 && idCell <= 63) {
+      const spanCasa = document.createElement('span');
+      spanCasa.textContent = letrasCasas[coluna];
+      spanCasa.classList.add('nome-casa');
+      cell.appendChild(spanCasa);
+    }
+    if (coluna === 0) {
+      const spanCasa = document.createElement('span');
+      spanCasa.textContent = numeroCasas[linha];
+      spanCasa.classList.add('nome-casa-num');
+      cell.appendChild(spanCasa);
+    }
+  })
+Array.from(todasPecas).forEach((pecaDiv) => {
+  // acha a posição antiga da peça (tipo 'a1', 'h7' etc)
+  const posicaoAntiga = Array.from(pecaDiv.classList).find(c => 
+    !classesPecas.includes(c)
+  );
+  if (!posicaoAntiga) return;
+
+  // procura a célula que ficou com essa posição após inverter
+  const novaCell = Array.from(todasCells).find(cell => 
+    cell.classList.contains(posicaoAntiga)
+  );
+  if (!novaCell) return;
+
+  // pega a posição atualizada da célula (já invertida, tipo 'h8')
+  const novaPosicao = Array.from(novaCell.classList).find(c => 
+    !classesPecas.includes(c)
+  );
+
+  // remove a posição antiga da peça e adiciona a nova
+  pecaDiv.classList.remove(posicaoAntiga);
+  pecaDiv.classList.add(novaPosicao);
+
+  // só move se ainda não estiver na célula certa
+  if (pecaDiv.parentElement !== novaCell) {
+    novaCell.appendChild(pecaDiv);
+  }
+});
+
+
+
+});
+
+
+
+
+
+
 document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) => {
   const celula = evento.target.closest('.cell');
- 
+
   if (celula.dataset.turno === 'false') return;
 
   if (celula) {
@@ -30,6 +109,7 @@ document.querySelector('.tabuleiro').addEventListener('pointerdown', (evento) =>
       offsetX = evento.clientX - imgAtiva.offsetLeft;
       offsetY = evento.clientY - imgAtiva.offsetTop;
       imgAtiva.style.cursor = "grabbing";
+      imgAtiva.classList.add('dragging');
     }
 
     if (!celula.classList.contains('posicao-cell')) {
@@ -77,8 +157,9 @@ document.querySelector('.tabuleiro').addEventListener('pointerup', (e) => {
     const elementoAbaixo = document.elementFromPoint(e.clientX, e.clientY).closest(".cell");
     const imgPosicao = elementoAbaixo.querySelector('img')
     const cell = e.target.closest(".cell");
+    imgAtiva.classList.remove('dragging');
 
-    
+
 
     if (imgPosicao) {
       if (cell !== elementoAbaixo) {
@@ -235,7 +316,7 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
   }
   if (botao.id === 'stockfish') {
     setNumeroJogadas(1);
-    
+
 
     const turno = document.getElementById('turno');
     turno.innerHTML = 'Turno: Brancas';
@@ -258,16 +339,10 @@ document.getElementById('container-menu').addEventListener('pointerdown', (event
     divOpcoes.appendChild(botao2P);
     botao2P.classList.remove('d-none')
 
-
-
-
-
     setModoJogo('stockfish');
     criarTabuleiro8x8();
     colocarPecas('branco');
     colocarPecas('preto');
-    
-   
 
   }
 
@@ -281,9 +356,9 @@ export function getDificuldade() {
 
 input.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
-    
+
     if (input.value >= 0 && input.value <= 20) {
-     
+
       dificuldade = input.value;
       const dificuldadeTexto = document.querySelector('.dificuldade');
       dificuldadeTexto.innerHTML = `Dificuldade: ${dificuldade}`;
